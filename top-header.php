@@ -18,7 +18,7 @@
 					<ul class="nav navbar-nav" >				
 				
 					<li class="nav-item">
-					  <a class="nav-link">hi, <?php echo $_SESSION['admin_name'] ?></a>
+					  <a class="nav-link">hi, <?php echo $_SESSION['user'] ?></a>
 					</li>
 					<li class="nav-item">
 					  <a class="nav-link" href="logout.php"><span class="material-icons">logout</span></a>

@@ -6,11 +6,11 @@ session_start();
 
 if(isset($_POST['submit'])){
 
-   $name = mysqli_real_escape_string($conn, $_POST['name']);
+   //$name = mysqli_real_escape_string($conn, $_POST['name']);
    $username = mysqli_real_escape_string($conn, $_POST['username']);
    $password = md5($_POST['password']);
-   $cpass = md5($_POST['cpassword']);
-   $role = $_POST['role'];
+   //$cpass = md5($_POST['cpassword']);
+   //$role = $_POST['role'];
 
    $select = " SELECT * FROM users WHERE username = '$username' && password = '$password' ";
 
@@ -20,14 +20,24 @@ if(isset($_POST['submit'])){
 
       $row = mysqli_fetch_array($result);
 
-      if($row['role'] == 'super_admin'  || $row['role'] == 'department_admin'){
+      if($row['role'] == 'super_admin'){
 
-         $_SESSION['admin_name'] = $row['name'];
+         $_SESSION['user'] = $row['name'];
+         header('location:admin_page.php');
+
+      }elseif($row['role'] == 'department_admin'){
+
+         $_SESSION['user'] = $row['name'];
          header('location:admin_page.php');
 
       }elseif($row['role'] == 'teacher'){
 
-         $_SESSION['role'] = $row['name'];
+         $_SESSION['user'] = $row['name'];
+         header('location:user_page.php');
+
+      }elseif($row['role'] == 'student'){
+
+         $_SESSION['user'] = $row['name'];
          header('location:user_page.php');
 
       }
