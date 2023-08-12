@@ -6,7 +6,7 @@
 
 			                <li class="dropdown">
                     <a href="#homeSubmenu1" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                    <i class="material-icons">dashboard</i><span>Dashboard</span></a>
+                    <i class="material-icons">home</i><span>Dashboard</span></a>
                     <ul class="collapse list-unstyled menu" id="homeSubmenu1">
                         <li>
                             <a href="admin_page.php">Admin Dashboard</a>
@@ -21,10 +21,13 @@
                 </li>
 			
 			
-                <li class="active">
+                <li class="">
                     <a href="session.php"><i class="material-icons">date_range</i><span>Session</span></a>
                 </li>
-                               <li class="">
+                <li class="">
+                    <a href="section.php"><i class="material-icons">event_seat</i><span>Section</span></a>
+                </li>
+                <li class="">
                     <a href="department.php"><i class="material-icons">badge</i><span>Department</span></a>
                 </li>
                 <li class="dropdown">

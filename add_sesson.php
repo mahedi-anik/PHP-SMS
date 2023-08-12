@@ -1,35 +1,33 @@
-		<?php include_once('header.php');?>
-			<?php
+<?php include_once('header.php');?>
+<?php
 
 		@include 'config.php';
 
 		session_start();
 
-		if(!isset($_SESSION['admin_name'])){
+		if(!isset($_SESSION['user'])){
 			header('location:login_form.php');
 		}
 
 	?>
 <?php
-@include "config.php";
+	include('config.php');
+ if(isset($_POST['submit'])){
+	$session=$_POST['session'];
 
-if (isset($_POST["submit"])) {
-   $session = $_POST['first_name'];
-  
+	$select = " SELECT * FROM session WHERE session = '$session' ";
 
-   $sql = "INSERT INTO `session`(`id`, `session`) VALUES (NULL,'$session')";
+   $result = mysqli_query($conn, $select);
 
-   $result = mysqli_query($conn, $sql);
+   if(mysqli_num_rows($result) > 0){
 
-   if ($result) {
-      header("Location: session.php?msg=New record created successfully");
-   } else {
-      echo "Failed: " . mysqli_error($conn);
-   }
-}
-
+      $error[] = 'Session already exist!';
+ }else{
+	mysqli_query($conn,"insert into session (session) values ('$session')");
+	header('location:session.php');
+ }
+};
 ?>
-
 
 		<?php include_once('sidebar.php');?>
 		<?php include_once('top-header.php');?>
@@ -55,6 +53,7 @@ if (isset($_POST["submit"])) {
 		<body>
 
 			<div class="main-content">
+				<form action="" method="post">
 				<div class="row">
 					<div class="col-lg-12 col-md-12">
 						<div class="card" style="min-height:485px">
@@ -63,15 +62,16 @@ if (isset($_POST["submit"])) {
 								<hr>
 							</div>
 							<div class="card-content">
-								<?php
-									if (isset($_GET["msg"])) {
-										$msg = $_GET["msg"];
-										echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
-											' . $msg . '
-											<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-										</div>';
-									}
-								?>
+<?php
+      if(isset($error)){
+         foreach($error as $error){
+            echo '<div class="alert alert-danger alert-dismissible fade show" style="text-align:center;" role="alert">
+										' . $error . '
+										<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+									</div>';
+         };
+      };
+      ?>
 								<div class="form-group row">
 	    <label  class="col-sm-3 col-form-label" style="text-align:right;">Session :</label>
 	    <div class="col-sm-7">

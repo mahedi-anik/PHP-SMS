@@ -15,16 +15,16 @@ include "config.php";
 $id = $_GET["id"];
 
 if (isset($_POST["submit"])) {
-  $departmentname = $_POST['departmentname'];
-  $remarks = $_POST['remarks'];
+  $sessionid = $_POST['sessionid'];
+  $sectionname = $_POST['sectionname'];
 
 
-  $sql = "UPDATE `department` SET `departmentname`='$departmentname',`remarks`='$remarks' WHERE departmentid = $id";
+  $sql = "UPDATE `section` SET `sessionid`='$sessionid',`sectionname`='$sectionname' WHERE sectionid = $id";
 
   $result = mysqli_query($conn, $sql);
 
   if ($result) {
-    header("Location: department.php?msg=Data updated successfully");
+    header("Location: section.php?msg=Data updated successfully");
   } else {
     echo "Failed: " . mysqli_error($conn);
   }
@@ -41,7 +41,7 @@ if (isset($_POST["submit"])) {
 			<meta charset="UTF-8">
 			<meta http-equiv="X-UA-Compatible" content="IE=edge">
 			<meta name="viewport" content="width=device-width, initial-scale=1.0">
-			<title>admin page</title>
+			<title>Section page</title>
 
 			<!-- custom css file link  -->
 			<link rel="stylesheet" href="css/style.css">
@@ -61,32 +61,55 @@ if (isset($_POST["submit"])) {
 					<div class="col-lg-12 col-md-12">
 						<div class="card" style="min-height:485px">
 							<div class="card-header card-header-text">
-								<h2 class="card-title" style="text-align: center;">Update Department Info</h2>
+								<h2 class="card-title" style="text-align: center;">Update Section Info</h2>
 								<hr>
 							</div>
 							<div class="card-content">
 								 <?php
-    $sql = "SELECT * FROM `department` WHERE departmentid = $id LIMIT 1";
+    $sql = "SELECT * from section LEFT JOIN session on section.sessionid=session.sessionid WHERE section.sectionid = $id LIMIT 1";
     $result = mysqli_query($conn, $sql);
     $row = mysqli_fetch_assoc($result);
     ?>
 								<div class="form-group row">
 	    <label  class="col-sm-3 col-form-label" style="text-align:right;">Department Name :</label>
 	    <div class="col-sm-7">
-	      <input type="text" class="form-control" name="departmentname" value="<?php echo $row['departmentname'] ?>" required>
+	      <select class="form-control" name="sessionid" required value="<?php echo $row['sessionid'] ?>">
+       <option value="">Select Session</option>
+    <?php 
+    $query ="SELECT session,sessionid FROM session";
+    $result = $conn->query($query);
+    if($result->num_rows> 0){
+        while($optionData=$result->fetch_assoc()){
+        $option =$optionData['session'];
+        $data =$optionData['sessionid'];
+    ?>
+    <?php
+    //selected option
+    if(!empty($session) && $session== $option){
+    // selected option
+    ?>
+    <option value="<?php echo $data; ?>" selected><?php echo $option; ?>  </option>
+    <?php 
+continue;
+   }?>
+    <option value="<?php echo $data; ?>" ><?php echo $option; ?> </option>
+   <?php
+    }}
+    ?>
+    </select>
 	    </div>
 	  </div>
 	  <div>&nbsp;</div>
 	  <div class="form-group row">
-	    <label  class="col-sm-3 col-form-label" style="text-align:right;">Remarks:</label>
+	    <label  class="col-sm-3 col-form-label" style="text-align:right;">Section :</label>
 	    <div class="col-sm-7">
-	      <input type="text" class="form-control" name="remarks" value="<?php echo $row['remarks'] ?>">
+	      <input type="text" class="form-control" name="sectionname" required value="<?php echo $row['sectionname'] ?>">
 	    </div>
 	  </div>
 	  <div>&nbsp;</div>
 	  <div style="text-align:center;">
 	               <button type="submit" class="btn btn-success" name="submit">Update</button>
-	               <a href="department.php" class="btn btn-danger">Cancel</a>
+	               <a href="section.php" class="btn btn-danger">Cancel</a>
 	            </div>
 								</div>
 

@@ -13,22 +13,22 @@
 <?php
 	include('config.php');
  if(isset($_POST['submit'])){
-	$departmentname=$_POST['departmentname'];
-	$remarks=$_POST['remarks'];
-	$select = " SELECT * FROM department WHERE departmentname = '$departmentname' ";
+	$sessionid=$_POST['sessionid'];
+	$sectionname=$_POST['sectionname'];
+
+	$select = " SELECT * from section LEFT JOIN session on section.sessionid=session.sessionid WHERE section.sessionid = '$sessionid' and section.sectionname= '$sectionname' ";
 
    $result = mysqli_query($conn, $select);
 
    if(mysqli_num_rows($result) > 0){
 
-      $error[] = 'Dedpartment already exist!';
+      $error[] = 'Section already exist!';
  }else{
-	mysqli_query($conn,"insert into department (departmentname, remarks) values ('$departmentname', '$remarks')");
-	header('location:department.php');
+	mysqli_query($conn,"insert into section (sessionid,sectionname) values ('$sessionid','$sectionname')");
+	header('location:section.php');
  }
 };
 ?>
-
 
 		<?php include_once('sidebar.php');?>
 		<?php include_once('top-header.php');?>
@@ -39,11 +39,10 @@
 			<meta charset="UTF-8">
 			<meta http-equiv="X-UA-Compatible" content="IE=edge">
 			<meta name="viewport" content="width=device-width, initial-scale=1.0">
-			<title>admin page</title>
+			<title>Section page</title>
 
 			<!-- custom css file link  -->
 			<link rel="stylesheet" href="css/style.css">
-			<link rel="stylesheet" href="logincss/style.css">
 			  <!-- Bootstrap -->
 	  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 
@@ -60,13 +59,11 @@
 					<div class="col-lg-12 col-md-12">
 						<div class="card" style="min-height:485px">
 							<div class="card-header card-header-text">
-								<h2 class="card-title" style="text-align: center;">Add New Department</h2>
+								<h2 class="card-title" style="text-align: center;">Add New Section</h2>
 								<hr>
 							</div>
 							<div class="card-content">
-								
-								<div class="form-group row">
-									<?php
+<?php
       if(isset($error)){
          foreach($error as $error){
             echo '<div class="alert alert-danger alert-dismissible fade show" style="text-align:center;" role="alert">
@@ -76,22 +73,47 @@
          };
       };
       ?>
-	    <label  class="col-sm-3 col-form-label" style="text-align:right;">Department Name :</label>
+								<div class="form-group row">
+	    <label  class="col-sm-3 col-form-label" style="text-align:right;">Session :</label>
 	    <div class="col-sm-7">
-	      <input type="text" class="form-control" name="departmentname" required>
+		<select class="form-control" name="sessionid" required>
+       <option value="">Select Session</option>
+    <?php 
+    $query ="SELECT session,sessionid FROM session";
+    $result = $conn->query($query);
+    if($result->num_rows> 0){
+        while($optionData=$result->fetch_assoc()){
+        $option =$optionData['session'];
+        $data =$optionData['sessionid'];
+    ?>
+    <?php
+    //selected option
+    if(!empty($session) && $session== $option){
+    // selected option
+    ?>
+    <option value="<?php echo $data; ?>" selected><?php echo $option; ?> </option>
+    <?php 
+continue;
+   }?>
+    <option value="<?php echo $data; ?>" ><?php echo $option; ?> </option>
+   <?php
+    }}
+    ?>
+    </select>
+
 	    </div>
 	  </div>
 	  <div>&nbsp;</div>
 	  <div class="form-group row">
-	    <label  class="col-sm-3 col-form-label" style="text-align:right;">Remarks:</label>
+	    <label  class="col-sm-3 col-form-label" style="text-align:right;">Section :</label>
 	    <div class="col-sm-7">
-	      <input type="text" class="form-control" name="remarks" >
+	      <input type="text" class="form-control" name="sectionname" placeholder="section" required>
 	    </div>
 	  </div>
 	  <div>&nbsp;</div>
 	  <div style="text-align:center;">
 	               <button type="submit" class="btn btn-success" name="submit">Save</button>
-	               <a href="department.php" class="btn btn-danger">Cancel</a>
+	               <a href="section.php" class="btn btn-danger">Cancel</a>
 	            </div>
 								</div>
 
@@ -100,7 +122,6 @@
 
 						<div>
 						</div>
-					</form>
 					</div>
 					   <!-- Bootstrap -->
 	   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
