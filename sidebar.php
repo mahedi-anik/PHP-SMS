@@ -28,6 +28,9 @@
                     <a href="section.php"><i class="material-icons">event_seat</i><span>Section</span></a>
                 </li>
                 <li class="">
+                    <a href="course.php"><i class="material-icons">assessment</i><span>Course</span></a>
+                </li>
+                <li class="">
                     <a href="department.php"><i class="material-icons">badge</i><span>Department</span></a>
                 </li>
                 <li class="dropdown">
