@@ -100,6 +100,7 @@ continue;
     ?>
     </select>
 	    </div>
+	</div>
 	  <div>&nbsp;</div>
 	  <div class="form-group row">
 	    <label  class="col-sm-3 col-form-label" style="text-align:right;">Department Name :</label>

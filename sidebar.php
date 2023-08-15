@@ -38,114 +38,23 @@
                 <li class="">
                     <a href="offer.php"><i class="material-icons">badge</i><span>Course Offer</span></a>
                 </li>
-                <li class="dropdown">
-                    <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-					<i class="material-icons">apps</i><span>widgets</span></a>
-                    <ul class="collapse list-unstyled menu" id="pageSubmenu2">
-                        <li>
-                            <a href="#">Page 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 3</a>
-                        </li>
-                    </ul>
+                <li class="">
+                    <a href="project.php"><i class="material-icons">badge</i><span>Project</span></a>
                 </li>
-				
-				 <li class="dropdown">
-                    <a href="#pageSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-					<i class="material-icons">equalizer</i>
-				
-					
-					<span>chart</span></a>
-                    <ul class="collapse list-unstyled menu" id="pageSubmenu3">
-                        <li>
-                            <a href="#">Page 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 3</a>
-                        </li>
-                    </ul>
+                <li class="">
+                    <a href="enrollment.php"><i class="material-icons">badge</i><span>Enrollments</span></a>
                 </li>
-				  <li class="dropdown">
-                    <a href="#pageSubmenu4" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-					<i class="material-icons">extension</i><span>ui element</span></a>
-                    <ul class="collapse list-unstyled menu" id="pageSubmenu4">
-                        <li>
-                            <a href="#">Page 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 3</a>
-                        </li>
-                    </ul>
+                <li class="">
+                    <a href="grades.php"><i class="material-icons">badge</i><span>Grades</span></a>
                 </li>
-				
-				<li class="dropdown">
-                    <a href="#pageSubmenu5" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-					<i class="material-icons">border_color</i><span>forms</span></a>
-                    <ul class="collapse list-unstyled menu" id="pageSubmenu5">
-                        <li>
-                            <a href="#">Page 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 3</a>
-                        </li>
-                    </ul>
-                </li>
-               
-			   
-			   
-			   <li class="dropdown">
-                    <a href="#pageSubmenu6" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-					<i class="material-icons">grid_on</i><span>tables</span></a>
-                    <ul class="collapse list-unstyled menu" id="pageSubmenu6">
-                        <li>
-                            <a href="#">Page 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 3</a>
-                        </li>
-                    </ul>
-                </li>
-               
-			   
-			     <li class="dropdown">
-                    <a href="#pageSubmenu7" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-					<i class="material-icons">content_copy</i><span>Pages</span></a>
-                    <ul class="collapse list-unstyled menu" id="pageSubmenu7">
-                        <li>
-                            <a href="#">Page 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 3</a>
-                        </li>
-                    </ul>
-                </li>
-               
                <li class="">
-                    <a href="#"><i class="material-icons">date_range</i><span>copy</span></a>
+                    <a href="register.php"><i class="material-icons">people</i><span>Register</span></a>
+                </li>
+               <li class="">
+                    <a href="login_form.php"><i class="material-icons">settings</i><span>Logout</span></a>
                 </li>
 				
-				 <li  class="">
-                    <a href="#"><i class="material-icons">library_books</i><span>Calender</span></a>
-                </li>
+				 
                
                
             </ul>

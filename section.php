@@ -63,7 +63,7 @@
 									<?php
 										@include 'config.php';
 
-										$query=mysqli_query($conn,"SELECT * from section LEFT JOIN session on section.sessionid=session.sessionid");
+										$query=mysqli_query($conn,"SELECT * from section LEFT JOIN session on section.sessionid=session.sessionid ");
 										while($row=mysqli_fetch_array($query)){
 										?>
 										<tr>
