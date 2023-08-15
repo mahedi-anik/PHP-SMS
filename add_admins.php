@@ -13,19 +13,19 @@
 <?php
 	include('config.php');
  if(isset($_POST['submit'])){
-	$sessionid=$_POST['sessionid'];
-	$sectionname=$_POST['sectionname'];
+	$userid=$_POST['userid'];
+	$departmentid=$_POST['departmentid'];
 
-	$select = " SELECT * from section LEFT JOIN session on section.sessionid=session.sessionid WHERE section.sessionid = '$sessionid' and section.sectionname= '$sectionname' ";
+	$select = " SELECT * from admins LEFT JOIN users on admins.userid=users.id LEFT JOIN department on admins.departmentid=department.departmentid WHERE admins.userid = '$userid' and admins.departmentid= '$departmentid' ";
 
    $result = mysqli_query($conn, $select);
 
    if(mysqli_num_rows($result) > 0){
 
-      $error[] = 'Section already exist!';
+      $error[] = 'Department Admin already exist!';
  }else{
-	mysqli_query($conn,"insert into section (sessionid,sectionname) values ('$sessionid','$sectionname')");
-	header('location:section.php');
+	mysqli_query($conn,"insert into admins (userid,departmentid) values ('$userid','$departmentid')");
+	header('location:admins.php');
  }
 };
 ?>
@@ -39,7 +39,7 @@
 			<meta charset="UTF-8">
 			<meta http-equiv="X-UA-Compatible" content="IE=edge">
 			<meta name="viewport" content="width=device-width, initial-scale=1.0">
-			<title>Section page</title>
+			<title>Admins page</title>
 
 			<!-- custom css file link  -->
 			<link rel="stylesheet" href="css/style.css">
@@ -59,7 +59,7 @@
 					<div class="col-lg-12 col-md-12">
 						<div class="card" style="min-height:485px">
 							<div class="card-header card-header-text">
-								<h2 class="card-title" style="text-align: center;">Add New Section</h2>
+								<h2 class="card-title" style="text-align: center;">Add New Depatment Admin</h2>
 								<hr>
 							</div>
 							<div class="card-content">
@@ -74,21 +74,21 @@
       };
       ?>
 								<div class="form-group row">
-	    <label  class="col-sm-3 col-form-label" style="text-align:right;">Session :</label>
+	    <label  class="col-sm-3 col-form-label" style="text-align:right;">User Name :</label>
 	    <div class="col-sm-7">
-		<select class="form-control" name="sessionid" required>
-       <option value="">Select Session</option>
+		<select class="form-control" name="userid" required>
+       <option value="">Select User</option>
     <?php 
-    $query ="SELECT session,sessionid FROM session order by session asc";
+    $query ="SELECT * FROM users where role='department_admin' order by name asc ";
     $result = $conn->query($query);
     if($result->num_rows> 0){
         while($optionData=$result->fetch_assoc()){
-        $option =$optionData['session'];
-        $data =$optionData['sessionid'];
+        $option =$optionData['name'];
+        $data =$optionData['id'];
     ?>
     <?php
     //selected option
-    if(!empty($session) && $session== $option){
+    if(!empty($name) && $name== $option){
     // selected option
     ?>
     <option value="<?php echo $data; ?>" selected><?php echo $option; ?> </option>
@@ -103,15 +103,38 @@ continue;
 	  </div>
 	  <div>&nbsp;</div>
 	  <div class="form-group row">
-	    <label  class="col-sm-3 col-form-label" style="text-align:right;">Section :</label>
+	    <label  class="col-sm-3 col-form-label" style="text-align:right;">Department Name :</label>
 	    <div class="col-sm-7">
-	      <input type="text" class="form-control" name="sectionname" placeholder="section" required>
+<select class="form-control" name="departmentid" required>
+       <option value="">Select Department</option>
+    <?php 
+    $query ="SELECT * FROM department order by departmentname asc ";
+    $result = $conn->query($query);
+    if($result->num_rows> 0){
+        while($optionData=$result->fetch_assoc()){
+        $option =$optionData['departmentname'];
+        $data =$optionData['departmentid'];
+    ?>
+    <?php
+    //selected option
+    if(!empty($departmentname) && $departmentname== $option){
+    // selected option
+    ?>
+    <option value="<?php echo $data; ?>" selected><?php echo $option; ?> </option>
+    <?php 
+continue;
+   }?>
+    <option value="<?php echo $data; ?>" ><?php echo $option; ?> </option>
+   <?php
+    }}
+    ?>
+    </select>
 	    </div>
 	  </div>
 	  <div>&nbsp;</div>
 	  <div style="text-align:center;">
 	               <button type="submit" class="btn btn-success" name="submit">Save</button>
-	               <a href="section.php" class="btn btn-danger">Cancel</a>
+	               <a href="admins.php" class="btn btn-danger">Cancel</a>
 	            </div>
 								</div>
 

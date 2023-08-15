@@ -19,7 +19,7 @@
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Section page</title>
+		<title>Admins page</title>
 
 		<!-- custom css file link  -->
 		<link rel="stylesheet" href="css/style.css">
@@ -37,9 +37,9 @@
 				<div class="col-lg-12 col-md-12">
 					<div class="card" style="min-height:485px">
 						<div class="card-header card-header-text">
-							<h2 class="card-title" style="text-align: center;">Section</h2>
+							<h2 class="card-title" style="text-align: center;">Departments Admin</h2>
 							<hr>
-							<a href="add_section.php" class="btn btn-primary mb-3">Add New</a>
+							<a href="add_admins.php" class="btn btn-primary mb-3">Add New</a>
 						</div>
 						<div class="card-content table-responsive">
 							<?php
@@ -54,8 +54,8 @@
 							<table class="table table-hover">
 								<thead class="text-primary">
 									<tr><th>ID</th>
-										<th>Session</th>
-										<th>Section</th>
+										<th>Admin</th>
+										<th>Department</th>
 										<th>Actions</th>
 									</tr>
 								</thead>
@@ -63,16 +63,16 @@
 									<?php
 										@include 'config.php';
 
-										$query=mysqli_query($conn,"SELECT * from section LEFT JOIN session on section.sessionid=session.sessionid");
+										$query=mysqli_query($conn,"SELECT * from admins LEFT JOIN users on admins.userid=users.id LEFT JOIN department on admins.departmentid=department.departmentid ");
 										while($row=mysqli_fetch_array($query)){
 										?>
 										<tr>
-											<td><?php echo ucwords($row['sectionid']); ?></td>
-											<td><?php echo ucwords($row['session']); ?></td>
-											<td><?php echo ucwords($row['sectionname']); ?></td>
+											<td><?php echo ucwords($row['adminid']); ?></td>
+											<td><?php echo ucwords($row['name']); ?></td>
+											<td><?php echo ucwords($row['departmentname']); ?></td>
 											<td>
-												 <a href="edit_section.php?id=<?php echo $row['sectionid'] ?>&existid=<?php echo $row['sessionid'] ?>" ><i class="fa-solid fa-pen-to-square fs-5 me-3"></i></a>
-              <a href="delete_section.php?id=<?php echo $row['sectionid'] ?>" class="link-danger"><i class="fa-solid fa-trash fs-5"></i></a>
+												 <a href="edit_admins.php?id=<?php echo $row['adminid'] ?>&userid=<?php echo $row['userid'] ?>&departmentid=<?php echo $row['departmentid'] ?>" ><i class="fa-solid fa-pen-to-square fs-5 me-3"></i></a>
+              <a href="delete_admins.php?id=<?php echo $row['adminid'] ?>" class="link-danger"><i class="fa-solid fa-trash fs-5"></i></a>
 											</td>
 										</tr>
 										<?php

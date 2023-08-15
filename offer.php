@@ -19,7 +19,7 @@
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Section page</title>
+		<title>Admins page</title>
 
 		<!-- custom css file link  -->
 		<link rel="stylesheet" href="css/style.css">
@@ -37,9 +37,9 @@
 				<div class="col-lg-12 col-md-12">
 					<div class="card" style="min-height:485px">
 						<div class="card-header card-header-text">
-							<h2 class="card-title" style="text-align: center;">Section</h2>
+							<h2 class="card-title" style="text-align: center;">Course Offer</h2>
 							<hr>
-							<a href="add_section.php" class="btn btn-primary mb-3">Add New</a>
+							<a href="add_offer.php" class="btn btn-primary mb-3">Add New</a>
 						</div>
 						<div class="card-content table-responsive">
 							<?php
@@ -55,7 +55,8 @@
 								<thead class="text-primary">
 									<tr><th>ID</th>
 										<th>Session</th>
-										<th>Section</th>
+										<th>Course</th>
+										<th>Teacher</th>
 										<th>Actions</th>
 									</tr>
 								</thead>
@@ -63,16 +64,17 @@
 									<?php
 										@include 'config.php';
 
-										$query=mysqli_query($conn,"SELECT * from section LEFT JOIN session on section.sessionid=session.sessionid");
+										$query=mysqli_query($conn,"SELECT * from offer LEFT JOIN users on offer.teacherid=users.id LEFT JOIN course on offer.courseid=course.courseid LEFT JOIN session on session.sessionid=offer.sessionid ");
 										while($row=mysqli_fetch_array($query)){
 										?>
 										<tr>
-											<td><?php echo ucwords($row['sectionid']); ?></td>
+											<td><?php echo ucwords($row['offerid']); ?></td>
 											<td><?php echo ucwords($row['session']); ?></td>
-											<td><?php echo ucwords($row['sectionname']); ?></td>
+											<td><?php echo ucwords($row['course']); ?></td>
+											<td><?php echo ucwords($row['name']); ?></td>
 											<td>
-												 <a href="edit_section.php?id=<?php echo $row['sectionid'] ?>&existid=<?php echo $row['sessionid'] ?>" ><i class="fa-solid fa-pen-to-square fs-5 me-3"></i></a>
-              <a href="delete_section.php?id=<?php echo $row['sectionid'] ?>" class="link-danger"><i class="fa-solid fa-trash fs-5"></i></a>
+												 <a href="edit_offer.php?id=<?php echo $row['offerid'] ?>&userid=<?php echo $row['teacherid'] ?>&sessionid=<?php echo $row['sessionid'] ?>&courseid=<?php echo $row['courseid'] ?>" ><i class="fa-solid fa-pen-to-square fs-5 me-3"></i></a>
+              <a href="delete_offer.php?id=<?php echo $row['offerid'] ?>" class="link-danger"><i class="fa-solid fa-trash fs-5"></i></a>
 											</td>
 										</tr>
 										<?php

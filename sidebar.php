@@ -20,7 +20,9 @@
                     </ul>
                 </li>
 			
-			
+			<li class="">
+                    <a href="admins.php"><i class="material-icons">badge</i><span>Admins</span></a>
+                </li>
                 <li class="">
                     <a href="session.php"><i class="material-icons">date_range</i><span>Session</span></a>
                 </li>
@@ -32,6 +34,9 @@
                 </li>
                 <li class="">
                     <a href="department.php"><i class="material-icons">badge</i><span>Department</span></a>
+                </li>
+                <li class="">
+                    <a href="offer.php"><i class="material-icons">badge</i><span>Course Offer</span></a>
                 </li>
                 <li class="dropdown">
                     <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">

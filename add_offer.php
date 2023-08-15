@@ -13,19 +13,20 @@
 <?php
 	include('config.php');
  if(isset($_POST['submit'])){
-	$sessionid=$_POST['sessionid'];
-	$sectionname=$_POST['sectionname'];
+ 	$sessionid=$_POST['sessionid'];
+	$courseid=$_POST['courseid'];
+	$teacherid=$_POST['teacherid'];
 
-	$select = " SELECT * from section LEFT JOIN session on section.sessionid=session.sessionid WHERE section.sessionid = '$sessionid' and section.sectionname= '$sectionname' ";
+	$select = " SELECT * from offer LEFT JOIN users on offer.teacherid=users.id LEFT JOIN course on offer.courseid=course.courseid LEFT JOIN session on session.sessionid=offer.sessionid WHERE offer.sessionid = '$sessionid' and offer.courseid= '$courseid' and offer.teacherid= '$teacherid' ";
 
    $result = mysqli_query($conn, $select);
 
    if(mysqli_num_rows($result) > 0){
 
-      $error[] = 'Section already exist!';
+      $error[] = 'Course Offer already exist!';
  }else{
-	mysqli_query($conn,"insert into section (sessionid,sectionname) values ('$sessionid','$sectionname')");
-	header('location:section.php');
+	mysqli_query($conn,"insert into offer (sessionid,courseid,teacherid) values ('$sessionid','$courseid','$teacherid')");
+	header('location:offer.php');
  }
 };
 ?>
@@ -39,7 +40,7 @@
 			<meta charset="UTF-8">
 			<meta http-equiv="X-UA-Compatible" content="IE=edge">
 			<meta name="viewport" content="width=device-width, initial-scale=1.0">
-			<title>Section page</title>
+			<title>Admins page</title>
 
 			<!-- custom css file link  -->
 			<link rel="stylesheet" href="css/style.css">
@@ -59,7 +60,7 @@
 					<div class="col-lg-12 col-md-12">
 						<div class="card" style="min-height:485px">
 							<div class="card-header card-header-text">
-								<h2 class="card-title" style="text-align: center;">Add New Section</h2>
+								<h2 class="card-title" style="text-align: center;">Add New Course Offer</h2>
 								<hr>
 							</div>
 							<div class="card-content">
@@ -102,16 +103,67 @@ continue;
     </select>
 	  </div>
 	  <div>&nbsp;</div>
-	  <div class="form-group row">
-	    <label  class="col-sm-3 col-form-label" style="text-align:right;">Section :</label>
+	  	<div class="form-group row">
+	    <label  class="col-sm-3 col-form-label" style="text-align:right;">Course Name :</label>
 	    <div class="col-sm-7">
-	      <input type="text" class="form-control" name="sectionname" placeholder="section" required>
-	    </div>
+		<select class="form-control" name="courseid" required>
+       <option value="">Select Course</option>
+    <?php 
+    $query ="SELECT course,courseid FROM course order by course asc";
+    $result = $conn->query($query);
+    if($result->num_rows> 0){
+        while($optionData=$result->fetch_assoc()){
+        $option =$optionData['course'];
+        $data =$optionData['courseid'];
+    ?>
+    <?php
+    //selected option
+    if(!empty($course) && $course == $option){
+    // selected option
+    ?>
+    <option value="<?php echo $data; ?>" selected><?php echo $option; ?> </option>
+    <?php 
+continue;
+   }?>
+    <option value="<?php echo $data; ?>" ><?php echo $option; ?> </option>
+   <?php
+    }}
+    ?>
+    </select>
+	  </div>
+	  <div>&nbsp;</div>
+	  <div class="form-group row">
+	    <label  class="col-sm-3 col-form-label" style="text-align:right;">Department Name :</label>
+	    <div class="col-sm-7">
+<select class="form-control" name="teacherid" required>
+       <option value="">Select User</option>
+    <?php 
+    $query ="SELECT * FROM users where role='teacher' order by name asc ";
+    $result = $conn->query($query);
+    if($result->num_rows> 0){
+        while($optionData=$result->fetch_assoc()){
+        $option =$optionData['name'];
+        $data =$optionData['id'];
+    ?>
+    <?php
+    //selected option
+    if(!empty($name) && $name== $option){
+    // selected option
+    ?>
+    <option value="<?php echo $data; ?>" selected><?php echo $option; ?> </option>
+    <?php 
+continue;
+   }?>
+    <option value="<?php echo $data; ?>" ><?php echo $option; ?> </option>
+   <?php
+    }}
+    ?>
+    </select>
 	  </div>
 	  <div>&nbsp;</div>
 	  <div style="text-align:center;">
 	               <button type="submit" class="btn btn-success" name="submit">Save</button>
-	               <a href="section.php" class="btn btn-danger">Cancel</a>
+	               <a href="admins.php" class="btn btn-danger">Cancel</a>
 	            </div>
 								</div>
 
@@ -121,12 +173,18 @@ continue;
 						<div>
 						</div>
 					</div>
-					   <!-- Bootstrap -->
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<!-- Bootstrap -->
 	   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+</body>
+			<?php include_once('footer.php');?> 
+</html>
 
-				</body>
-				<?php include_once('footer.php');?> 
-				</html>
+					  
 
 				
 
