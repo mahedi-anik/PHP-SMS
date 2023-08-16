@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 15, 2023 at 07:03 PM
+-- Generation Time: Aug 16, 2023 at 07:39 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -92,6 +92,15 @@ CREATE TABLE `enrollments` (
   `studentid` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `enrollments`
+--
+
+INSERT INTO `enrollments` (`enrollmentid`, `sectionid`, `studentid`) VALUES
+(1, 4, 9),
+(2, 3, 8),
+(3, 3, 7);
+
 -- --------------------------------------------------------
 
 --
@@ -145,7 +154,7 @@ CREATE TABLE `projectidea` (
 
 INSERT INTO `projectidea` (`projectideaid`, `project`, `studentid`, `status`) VALUES
 (1, 'University Management System', 7, 'Active'),
-(2, 'University Website', 9, 'Active');
+(2, 'University Website', 9, 'Inactive');
 
 -- --------------------------------------------------------
 
@@ -166,7 +175,7 @@ CREATE TABLE `section` (
 INSERT INTO `section` (`sectionid`, `sessionid`, `sectionname`) VALUES
 (3, '10', 'A'),
 (4, '12', 'B'),
-(5, '13', 'a');
+(5, '13', 'c');
 
 -- --------------------------------------------------------
 
@@ -309,7 +318,7 @@ ALTER TABLE `department`
 -- AUTO_INCREMENT for table `enrollments`
 --
 ALTER TABLE `enrollments`
-  MODIFY `enrollmentid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `enrollmentid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `grades`
