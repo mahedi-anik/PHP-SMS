@@ -6,6 +6,8 @@ if(isset($_POST['submit'])){
 
    $name = mysqli_real_escape_string($conn, $_POST['name']);
    $username = mysqli_real_escape_string($conn, $_POST['username']);
+   $email = mysqli_real_escape_string($conn, $_POST['email']);
+   $mobile = mysqli_real_escape_string($conn, $_POST['mobile']);
    $password = md5($_POST['password']);
    $cpass = md5($_POST['cpassword']);
    $role = mysqli_real_escape_string($conn, $_POST['role']);
@@ -23,7 +25,7 @@ if(isset($_POST['submit'])){
       if($password != $cpass){
          $error[] = 'password not matched!';
       }else{
-         $insert = "INSERT INTO users(name, username, password, role) VALUES('$name','$username','$password','$role')";
+         $insert = "INSERT INTO users(name, username,email,mobile, password) VALUES('$name','$username','$email','$mobile','$password')";
          mysqli_query($conn, $insert);
          header('location:login_form.php');
       }
@@ -61,14 +63,10 @@ if(isset($_POST['submit'])){
       ?>
       <input type="text" name="name" required placeholder="enter your name">
       <input type="text" name="username" required placeholder="enter your username">
+      <input type="text" name="email" required placeholder="enter your email">
+      <input name="mobile" required maxlength="11" placeholder="enter your mobile no.">
       <input type="password" name="password" required placeholder="enter your password">
       <input type="password" name="cpassword" required placeholder="confirm your password">
-      <select name="role">
-         <option value="super_admin">Super Admin</option>
-         <option value="department_admin">Department Admin</option>
-         <option value="teacher">Teacher</option>
-         <option value="student">Student</option>
-      </select>
       <input type="submit" name="submit" value="register now" class="form-btn">
       <p>already have an account? <a href="login_form.php">login now</a></p>
    </form>

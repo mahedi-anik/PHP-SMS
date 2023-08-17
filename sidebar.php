@@ -21,7 +21,7 @@
                 </li>
 			
 			<li class="">
-                    <a href="admins.php"><i class="material-icons">badge</i><span>Admins</span></a>
+                    <a href="admins.php"><i class="material-icons">admin_panel_settings</i><span>Admins</span></a>
                 </li>
                 <li class="">
                     <a href="session.php"><i class="material-icons">date_range</i><span>Session</span></a>
@@ -39,13 +39,13 @@
                     <a href="offer.php"><i class="material-icons">badge</i><span>Course Offer</span></a>
                 </li>
                 <li class="">
-                    <a href="project.php"><i class="material-icons">badge</i><span>Project</span></a>
+                    <a href="project.php"><i class="material-icons">tips_and_updates</i><span>Project</span></a>
                 </li>
                 <li class="">
-                    <a href="enrollment.php"><i class="material-icons">badge</i><span>Enrollments</span></a>
+                    <a href="enrollment.php"><i class="material-icons">keyboard_command_key</i><span>Enrollments</span></a>
                 </li>
                 <li class="">
-                    <a href="grades.php"><i class="material-icons">badge</i><span>Grades</span></a>
+                    <a href="grades.php"><i class="material-icons">grade</i><span>Grades</span></a>
                 </li>
                <li class="">
                     <a href="register.php"><i class="material-icons">people</i><span>Register</span></a>

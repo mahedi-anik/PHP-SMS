@@ -19,7 +19,7 @@
 			<meta charset="UTF-8">
 			<meta http-equiv="X-UA-Compatible" content="IE=edge">
 			<meta name="viewport" content="width=device-width, initial-scale=1.0">
-			<title>Enrollment page</title>
+			<title>Register page</title>
 
 			<!-- custom css file link  -->
 			<link rel="stylesheet" href="css/style.css">
@@ -37,9 +37,9 @@
 					<div class="col-lg-12 col-md-12">
 						<div class="card" style="min-height:485px">
 							<div class="card-header card-header-text">
-								<h2 class="card-title" style="text-align: center;">Exam Grades</h2>
+								<h2 class="card-title" style="text-align: center;">Register User</h2>
 								<hr>
-								<a href="add_grade.php" class="btn btn-primary mb-3">Add New</a>
+								<a href="add_register.php" class="btn btn-primary mb-3">Add New</a>
 							</div>
 							<div class="card-content table-responsive">
 								<?php
@@ -54,9 +54,11 @@
 								<table class="table table-hover">
 									<thead class="text-primary">
 										<tr><th>ID</th>
-											<th>Student</th>
-											<th>Section</th>
-											<th>Marks</th>
+											<th>Name</th>
+											<th>User Name</th>
+											<th>Role</th>
+											<th>Email</th>
+											<th>Mobile</th>
 											<th>Actions</th>
 										</tr>
 									</thead>
@@ -64,17 +66,19 @@
 										<?php
 											@include 'config.php';
 
-											$query=mysqli_query($conn,"SELECT * from grades LEFT JOIN users on grades.studentid=users.id LEFT JOIN section on grades.sectionid=section.sectionid ");
+											$query=mysqli_query($conn,"SELECT * from users order by name asc ");
 											while($row=mysqli_fetch_array($query)){
 											?>
 											<tr>
-												<td><?php echo ucwords($row['gradeid']); ?></td>
+												<td><?php echo ucwords($row['id']); ?></td>
 												<td><?php echo ucwords($row['name']); ?></td>
-												<td><?php echo ucwords($row['sectionname']); ?></td>
-												<td><?php echo ucwords($row['marks']); ?></td>
+												<td><?php echo ucwords($row['username']); ?></td>
+												<td><?php echo ucwords($row['role']); ?></td>
+												<td><?php echo ucwords($row['email']); ?></td>
+												<td><?php echo ucwords($row['mobile']); ?></td>
 												<td>
-													 <a href="edit_grade.php?id=<?php echo $row['gradeid'] ?>&userid=<?php echo $row['studentid'] ?>&sectionid=<?php echo $row['sectionid'] ?>&marks=<?php echo $row['marks'] ?>" ><i class="fa-solid fa-pen-to-square fs-5 me-3"></i></a>
-	              <a href="delete_grade.php?id=<?php echo $row['gradeid'] ?>" class="link-danger"><i class="fa-solid fa-trash fs-5"></i></a>
+													 <a href="edit_register.php?id=<?php echo $row['id'] ?>&roleid=<?php echo $row['role'] ?>" ><i class="fa-solid fa-pen-to-square fs-5 me-3"></i></a>
+	              <a href="delete_register.php?id=<?php echo $row['id'] ?>" class="link-danger"><i class="fa-solid fa-trash fs-5"></i></a>
 												</td>
 											</tr>
 											<?php

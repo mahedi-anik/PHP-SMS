@@ -21,7 +21,7 @@ if (isset($_POST["submit"])) {
 	$sectionid=$_POST['sectionid'];
 
 
-  $sql = "UPDATE `enrollments` SET `studentid`='$userid',`sectionid`='$sectionid' WHERE enrollmentid = $id";
+  $sql = "UPDATE `enrollments` SET `studentid`='$studentid',`sectionid`='$sectionid' WHERE enrollmentid = $id";
 
   $result = mysqli_query($conn, $sql);
 
@@ -106,7 +106,7 @@ continue;
 	    <label  class="col-sm-3 col-form-label" style="text-align:right;">Section :</label>
 	    <div class="col-sm-7">
 	      <select class="form-control" name="sectionid" required>
-       <option value="">Select Department</option>
+       <option value="">Select Section</option>
     <?php 
     $query ="SELECT * FROM section order by sectionname asc ";
     $result = $conn->query($query);
