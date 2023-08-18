@@ -19,9 +19,17 @@
                         </li>
                     </ul>
                 </li>
-			
 			<li class="">
-                    <a href="admins.php"><i class="material-icons">admin_panel_settings</i><span>Admins</span></a>
+                    <a href="superadmin.php"><i class="material-icons">admin_panel_settings</i><span>Super Admins</span></a>
+                </li>
+			<li class="">
+                    <a href="admins.php"><i class="material-icons">admin_panel_settings</i><span>Department Admins</span></a>
+                </li>
+                <li class="">
+                    <a href="teacher.php"><i class="material-icons">admin_panel_settings</i><span>Teachers</span></a>
+                </li>
+                <li class="">
+                    <a href="student.php"><i class="material-icons">admin_panel_settings</i><span>Students</span></a>
                 </li>
                 <li class="">
                     <a href="session.php"><i class="material-icons">date_range</i><span>Session</span></a>

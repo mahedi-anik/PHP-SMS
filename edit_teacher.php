@@ -14,6 +14,13 @@
 
 @include 'config.php';
 
+$id = $_GET["id"];
+$roleid=$_GET["roleid"];
+$status=$_GET["status"];
+$departmentid=$_GET["departmentid"];
+$courseid=$_GET["courseid"];
+
+
 if(isset($_POST['submit'])){
 
    $name = mysqli_real_escape_string($conn, $_POST['name']);
@@ -22,30 +29,22 @@ if(isset($_POST['submit'])){
    $mobile = mysqli_real_escape_string($conn, $_POST['mobile']);
    $password = md5($_POST['password']);
    $cpass = md5($_POST['cpassword']);
-   $role = mysqli_real_escape_string($conn, $_POST['role']);
-   $status = mysqli_real_escape_string($conn, $_POST['status']);
-   $departmentid = $_POST['departmentid'];
+   $roleid = mysqli_real_escape_string($conn, $_POST['roleid']);
+	$status=$_POST['status'];
+	$departmentid = $_POST['departmentid'];
+	$address = $_POST['address'];
+   $courseid = $_POST['courseid'];
 
-   $select = " SELECT * FROM users WHERE username = '$username' && password = '$password' && email = '$email' ";
 
-   $result = mysqli_query($conn, $select);
-
-   if(mysqli_num_rows($result) > 0){
-
-      $error[] = 'Department Admin already exist!';
-
-   }else{
-
-      if($password != $cpass){
+   if($password != $cpass){
          $error[] = 'password not matched!';
       }else{
-         $insert = "INSERT INTO users(name, username,email,mobile, password, role,status,departmentid) VALUES('$name','$username','$email','$mobile','$password','$role','$status','$departmentid')";
+         $insert = "UPDATE `users` SET `name`='$name',`username`='$username',`email`='$email',`mobile`='$mobile',`password`='$password',`role`='$roleid',`status`='$status',`departmentid`='$departmentid',`address`='$address',`courseid`='$courseid' WHERE id = $id";
          mysqli_query($conn, $insert);
-         header('location:admins.php');
+         header('location:teacher.php');
       }
-   }
 
-};
+}
 
 
 ?>
@@ -59,7 +58,7 @@ if(isset($_POST['submit'])){
 			<meta charset="UTF-8">
 			<meta http-equiv="X-UA-Compatible" content="IE=edge">
 			<meta name="viewport" content="width=device-width, initial-scale=1.0">
-			<title>Project Idea page</title>
+			<title>Register page</title>
 
 			<!-- custom css file link  -->
 			<link rel="stylesheet" href="css/style.css">
@@ -79,11 +78,11 @@ if(isset($_POST['submit'])){
 					<div class="col-lg-12 col-md-12">
 						<div class="card" style="min-height:485px">
 							<div class="card-header card-header-text">
-								<h2 class="card-title" style="text-align: center;">Add New Department Admin</h2>
+								<h2 class="card-title" style="text-align: center;">Update Teacher Info </h2>
 								<hr>
 							</div>
 							<div class="card-content">
-<?php
+								<?php
       if(isset($error)){
          foreach($error as $error){
             echo '<div class="alert alert-danger alert-dismissible fade show" style="text-align:center;" role="alert">
@@ -93,10 +92,16 @@ if(isset($_POST['submit'])){
          };
       };
       ?>
+<?php
+    $sql = "SELECT * from users WHERE id = $id LIMIT 1";
+    $result = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_assoc($result);
+    ?>
+ </div>
 								<div class="form-group row">
 	    <label  class="col-sm-3" style="text-align:right;">Name :</label>
 	    <div class="col-sm-7">
-	    	<input type="text" class="form-control" name="name" required placeholder="enter your name">
+	    	<input type="text" class="form-control" name="name" required value="<?php echo $row['name'] ?>">
 	  </div>
 	</div>
 	  <div>&nbsp;</div>
@@ -104,10 +109,10 @@ if(isset($_POST['submit'])){
 	  <div class="form-group row">
 	    <label  class="col-sm-3" style="text-align:right;">User Name :</label>
 	    <div class="col-sm-7">
-<input type="text" class="form-control" name="username" required placeholder="enter your username">
+<input type="text" class="form-control" name="username" required value="<?php echo $row['username'] ?>">
 	  </div>
 	</div>
-	  <div>&nbsp;</div>
+	<div>&nbsp;</div>
 	  	  <div class="form-group row">
 	    <label  class="col-sm-3 col-form-label" style="text-align:right;">Department Name :</label>
 	    <div class="col-sm-7">
@@ -130,26 +135,63 @@ if(isset($_POST['submit'])){
     <?php 
 continue;
    }?>
-    <option value="<?php echo $data; ?>" ><?php echo $option; ?> </option>
+    <option value="<?php echo $data; ?>"<?php if($data == $departmentid) { ?> selected="selected"<?php } ?> ><?php echo $option; ?> </option>
    <?php
     }}
     ?>
     </select>
 	    </div>
 	  </div>
+	  	  	  <div>&nbsp;</div>
+	  	<div class="form-group row">
+	    <label  class="col-sm-3 col-form-label" style="text-align:right;">Course Name :</label>
+	    <div class="col-sm-7">
+		<select class="form-control" name="courseid" required>
+       <option value="">Select Course</option>
+    <?php 
+    $query ="SELECT course,courseid FROM course order by course asc";
+    $result = $conn->query($query);
+    if($result->num_rows> 0){
+        while($optionData=$result->fetch_assoc()){
+        $option =$optionData['course'];
+        $data =$optionData['courseid'];
+    ?>
+    <?php
+    //selected option
+    if(!empty($course) && $course == $option){
+    // selected option
+    ?>
+    <option value="<?php echo $data; ?>" selected><?php echo $option; ?> </option>
+    <?php 
+continue;
+   }?>
+    <option value="<?php echo $data; ?>"<?php if($data == $courseid) { ?> selected="selected"<?php } ?> ><?php echo $option; ?> </option>
+   <?php
+    }}
+    ?>
+    </select>
+	  </div>
+	</div>
 	  <div>&nbsp;</div>
 	  <div class="form-group row">
 	    <label  class="col-sm-3" style="text-align:right;">Email:</label>
 	    <div class="col-sm-7">
-<input type="text" class="form-control" name="email" required placeholder="enter your email">
+<input type="text" class="form-control" name="email" required value="<?php echo $row['email'] ?>">
 	  </div>
 	</div>
 	  <div>&nbsp;</div>
 	  <div class="form-group row">
 	    <label  class="col-sm-3" style="text-align:right;">Mobile No:</label>
 	    <div class="col-sm-7">
-<input class="form-control" maxlength="11" minlength="11" 
-                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  required placeholder="enter your mobile no.">
+<input class="form-control" name="mobile" mamaxlength="11" minlength="11" 
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" required value="<?php echo $row['mobile'] ?>">
+	  </div>
+	</div>
+	<div>&nbsp;</div>
+	  <div class="form-group row">
+	    <label  class="col-sm-3" style="text-align:right;">Address:</label>
+	    <div class="col-sm-7">
+<input type="text" class="form-control" name="address" required value="<?php echo $row['address'] ?>">
 	  </div>
 	</div>
 	  <div>&nbsp;</div>
@@ -169,28 +211,67 @@ continue;
 	  <div>&nbsp;</div>
 	  	
 	  <div class="form-group row">
-	    <label class="col-sm-3" style="text-align:right;">Role :</label>
+	    <label class="col-sm-3" style="text-align:right;">Status :</label>
 	    <div class="col-sm-7">
-	    	<select class="form-control" name="role" required>
-         <option value="department_admin">Department Admin</option>
+	    	<select class="form-control" name="roleid" required>
+         <option value="super_admin" 
+         <?php 
+         if($roleid == "super_admin")
+            { 
+                echo "selected";
+            }
+         ?>>Super Admin</option>
+         <option value="department_admin" 
+         <?php 
+         if($roleid == "department_admin")
+            { 
+                echo "selected";
+            }
+         ?>>Department Admin</option>
+         <option value="teacher" 
+         <?php 
+         if($roleid == "teacher")
+            { 
+                echo "selected";
+            }
+         ?>>Teacher</option>
+         <option value="student" 
+         <?php 
+         if($roleid == "student")
+            { 
+                echo "selected";
+            }
+         ?>>Student</option>
+      </select>
       </select>
 	  </div>
 	</div>
 	<div>&nbsp;</div>
-	  	
-	  <div class="form-group row">
-	    <label class="col-sm-3" style="text-align:right;">Status :</label>
-	    <div class="col-sm-7">
-	    	<select class="form-control" name="status" required>
-         <option value="Active">Active</option>
-         <option value="Inactive">Inactive</option>
+          <div class="form-group row">
+        <label  class="col-sm-3 col-form-label" style="text-align:right;">Status :</label>
+        <div class="col-sm-7">
+            <select class="form-control" name="status" required>
+         <option value="Active" 
+         <?php 
+         if($status == "Active")
+            { 
+                echo "selected";
+            }
+         ?>>Active</option>
+         <option value="Inactive" 
+         <?php 
+         if($status == "Inactive")
+            { 
+                echo "selected";
+            }
+         ?>>Inactive</option>
       </select>
-	  </div>
-	</div>
+      </div>
+    </div>
 	  <div>&nbsp;</div>
 	  <div style="text-align:center;">
-	               <button type="submit" class="btn btn-success" name="submit">Save</button>
-	               <a href="admins.php" class="btn btn-danger">Cancel</a>
+	               <button type="submit" class="btn btn-success" name="submit">Update</button>
+	               <a href="teacher.php" class="btn btn-danger">Cancel</a>
 	            </div>
 								</div>
 

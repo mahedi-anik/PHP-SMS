@@ -14,13 +14,15 @@
 include "config.php";
 $id = $_GET["id"];
 $existid=$_GET["existid"];
+$departmentid=$_GET["departmentid"];
 
 if (isset($_POST["submit"])) {
   $sessionid = $_POST['sessionid'];
   $sectionname = $_POST['sectionname'];
+  $departmentid=$_POST["departmentid"];
 
 
-  $sql = "UPDATE `section` SET `sessionid`='$sessionid',`sectionname`='$sectionname' WHERE sectionid = $id";
+  $sql = "UPDATE `section` SET `sessionid`='$sessionid',`sectionname`='$sectionname',`departmentid`='$departmentid' WHERE sectionid = $id";
 
   $result = mysqli_query($conn, $sql);
 
@@ -78,7 +80,7 @@ if (isset($_POST["submit"])) {
        <option value="">Select Session</option>
 
    <?php 
-    $query ="SELECT session,sessionid FROM session";
+    $query ="SELECT CONCAT(session,'-',course) as session,sessionid FROM session left join course on session.courseid=course.courseid order by session asc";
     $result = $conn->query($query);
     if($result->num_rows> 0){
         while($optionData=$result->fetch_assoc()){
@@ -95,6 +97,36 @@ if (isset($_POST["submit"])) {
 continue;
    }?>
     <option value="<?php echo $data; ?>"<?php if($data == $existid) { ?> selected="selected"<?php } ?> ><?php echo $option; ?> </option>
+   <?php
+    }}
+    ?>
+    </select>
+	    </div>
+	  </div>
+	  <div>&nbsp;</div>
+	  	  <div class="form-group row">
+	    <label  class="col-sm-3 col-form-label" style="text-align:right;">Department Name :</label>
+	    <div class="col-sm-7">
+	      <select class="form-control" name="departmentid" required>
+       <option value="">Select Department</option>
+    <?php 
+    $query ="SELECT * FROM department order by departmentname asc ";
+    $result = $conn->query($query);
+    if($result->num_rows> 0){
+        while($optionData=$result->fetch_assoc()){
+        $option =$optionData['departmentname'];
+        $data =$optionData['departmentid'];
+    ?>
+    <?php
+    //selected option
+    if(!empty($departmentname) && $departmentname== $option){
+    // selected option
+    ?>
+    <option value="<?php echo $data; ?>" selected><?php echo $option; ?> </option>
+    <?php 
+continue;
+   }?>
+    <option value="<?php echo $data; ?>"<?php if($data == $departmentid) { ?> selected="selected"<?php } ?> ><?php echo $option; ?> </option>
    <?php
     }}
     ?>

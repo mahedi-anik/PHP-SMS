@@ -24,7 +24,6 @@ if(isset($_POST['submit'])){
    $cpass = md5($_POST['cpassword']);
    $role = mysqli_real_escape_string($conn, $_POST['role']);
    $status = mysqli_real_escape_string($conn, $_POST['status']);
-   $departmentid = $_POST['departmentid'];
 
    $select = " SELECT * FROM users WHERE username = '$username' && password = '$password' && email = '$email' ";
 
@@ -32,16 +31,16 @@ if(isset($_POST['submit'])){
 
    if(mysqli_num_rows($result) > 0){
 
-      $error[] = 'Department Admin already exist!';
+      $error[] = 'Super Admin already exist!';
 
    }else{
 
       if($password != $cpass){
          $error[] = 'password not matched!';
       }else{
-         $insert = "INSERT INTO users(name, username,email,mobile, password, role,status,departmentid) VALUES('$name','$username','$email','$mobile','$password','$role','$status','$departmentid')";
+         $insert = "INSERT INTO users(name, username,email,mobile, password, role,status) VALUES('$name','$username','$email','$mobile','$password','$role','$status')";
          mysqli_query($conn, $insert);
-         header('location:admins.php');
+         header('location:superadmin.php');
       }
    }
 
@@ -79,7 +78,7 @@ if(isset($_POST['submit'])){
 					<div class="col-lg-12 col-md-12">
 						<div class="card" style="min-height:485px">
 							<div class="card-header card-header-text">
-								<h2 class="card-title" style="text-align: center;">Add New Department Admin</h2>
+								<h2 class="card-title" style="text-align: center;">Add New Super Admin</h2>
 								<hr>
 							</div>
 							<div class="card-content">
@@ -108,36 +107,6 @@ if(isset($_POST['submit'])){
 	  </div>
 	</div>
 	  <div>&nbsp;</div>
-	  	  <div class="form-group row">
-	    <label  class="col-sm-3 col-form-label" style="text-align:right;">Department Name :</label>
-	    <div class="col-sm-7">
-	      <select class="form-control" name="departmentid" required>
-       <option value="">Select Department</option>
-    <?php 
-    $query ="SELECT * FROM department order by departmentname asc ";
-    $result = $conn->query($query);
-    if($result->num_rows> 0){
-        while($optionData=$result->fetch_assoc()){
-        $option =$optionData['departmentname'];
-        $data =$optionData['departmentid'];
-    ?>
-    <?php
-    //selected option
-    if(!empty($departmentname) && $departmentname== $option){
-    // selected option
-    ?>
-    <option value="<?php echo $data; ?>" selected><?php echo $option; ?> </option>
-    <?php 
-continue;
-   }?>
-    <option value="<?php echo $data; ?>" ><?php echo $option; ?> </option>
-   <?php
-    }}
-    ?>
-    </select>
-	    </div>
-	  </div>
-	  <div>&nbsp;</div>
 	  <div class="form-group row">
 	    <label  class="col-sm-3" style="text-align:right;">Email:</label>
 	    <div class="col-sm-7">
@@ -148,8 +117,7 @@ continue;
 	  <div class="form-group row">
 	    <label  class="col-sm-3" style="text-align:right;">Mobile No:</label>
 	    <div class="col-sm-7">
-<input class="form-control" maxlength="11" minlength="11" 
-                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  required placeholder="enter your mobile no.">
+<input class="form-control" name="mobile" maxlength="11" required placeholder="enter your mobile no.">
 	  </div>
 	</div>
 	  <div>&nbsp;</div>
@@ -172,7 +140,7 @@ continue;
 	    <label class="col-sm-3" style="text-align:right;">Role :</label>
 	    <div class="col-sm-7">
 	    	<select class="form-control" name="role" required>
-         <option value="department_admin">Department Admin</option>
+         <option value="super_admin">Super Admin</option>
       </select>
 	  </div>
 	</div>
@@ -190,7 +158,7 @@ continue;
 	  <div>&nbsp;</div>
 	  <div style="text-align:center;">
 	               <button type="submit" class="btn btn-success" name="submit">Save</button>
-	               <a href="admins.php" class="btn btn-danger">Cancel</a>
+	               <a href="superadmin.php" class="btn btn-danger">Cancel</a>
 	            </div>
 								</div>
 

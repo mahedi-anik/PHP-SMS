@@ -59,6 +59,7 @@
 											<th>Role</th>
 											<th>Email</th>
 											<th>Mobile</th>
+											<th>Status</th>
 											<th>Actions</th>
 										</tr>
 									</thead>
@@ -76,8 +77,9 @@
 												<td><?php echo ucwords($row['role']); ?></td>
 												<td><?php echo ucwords($row['email']); ?></td>
 												<td><?php echo ucwords($row['mobile']); ?></td>
+												<td><?php echo ucwords($row['status']); ?></td>
 												<td>
-													 <a href="edit_register.php?id=<?php echo $row['id'] ?>&roleid=<?php echo $row['role'] ?>" ><i class="fa-solid fa-pen-to-square fs-5 me-3"></i></a>
+													 <a href="edit_register.php?id=<?php echo $row['id'] ?>&roleid=<?php echo $row['role'] ?>&status=<?php echo $row['status'] ?>" ><i class="fa-solid fa-pen-to-square fs-5 me-3"></i></a>
 	              <a href="delete_register.php?id=<?php echo $row['id'] ?>" class="link-danger"><i class="fa-solid fa-trash fs-5"></i></a>
 												</td>
 											</tr>

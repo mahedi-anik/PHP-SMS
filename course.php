@@ -55,6 +55,9 @@
 								<thead class="text-primary">
 									<tr><th>ID</th>
 										<th>Course</th>
+										<th>Department</th>
+										<th>Marks</th>
+										<th>Description</th>
 										<th>Actions</th>
 									</tr>
 								</thead>
@@ -62,14 +65,17 @@
 									<?php
 										@include 'config.php';
 
-										$query=mysqli_query($conn,"select * from `course`");
+										$query=mysqli_query($conn,"select * from `course` left join department on course.departmentid=department.departmentid order by course asc");
 										while($row=mysqli_fetch_array($query)){
 										?>
 										<tr>
 											<td><?php echo ucwords($row['courseid']); ?></td>
 											<td><?php echo ucwords($row['course']); ?></td>
+											<td><?php echo ucwords($row['departmentname']); ?></td>
+											<td><?php echo ucwords($row['totalmarks']); ?></td>
+											<td><?php echo ucwords($row['description']); ?></td>
 											<td>
-												 <a href="edit_course.php?id=<?php echo $row['courseid'] ?>" ><i class="fa-solid fa-pen-to-square fs-5 me-3"></i></a>
+												 <a href="edit_course.php?id=<?php echo $row['courseid'] ?>&departmentid=<?php echo $row['departmentid'] ?>" ><i class="fa-solid fa-pen-to-square fs-5 me-3"></i></a>
               <a href="delete_course.php?id=<?php echo $row['courseid'] ?>" class="link-danger"><i class="fa-solid fa-trash fs-5"></i></a>
 											</td>
 										</tr>

@@ -23,6 +23,7 @@ if(isset($_POST['submit'])){
    $password = md5($_POST['password']);
    $cpass = md5($_POST['cpassword']);
    $role = mysqli_real_escape_string($conn, $_POST['role']);
+   $status = mysqli_real_escape_string($conn, $_POST['status']);
 
    $select = " SELECT * FROM users WHERE username = '$username' && password = '$password' && email = '$email' ";
 
@@ -37,7 +38,7 @@ if(isset($_POST['submit'])){
       if($password != $cpass){
          $error[] = 'password not matched!';
       }else{
-         $insert = "INSERT INTO users(name, username,email,mobile, password, role) VALUES('$name','$username','$email','$mobile','$password','$role')";
+         $insert = "INSERT INTO users(name, username,email,mobile, password, role,status) VALUES('$name','$username','$email','$mobile','$password','$role','$status')";
          mysqli_query($conn, $insert);
          header('location:register.php');
       }
@@ -136,13 +137,24 @@ if(isset($_POST['submit'])){
 	  <div>&nbsp;</div>
 	  	
 	  <div class="form-group row">
-	    <label class="col-sm-3" style="text-align:right;">Status :</label>
+	    <label class="col-sm-3" style="text-align:right;">Role :</label>
 	    <div class="col-sm-7">
 	    	<select class="form-control" name="role" required>
          <option value="super_admin">Super Admin</option>
          <option value="department_admin">Department Admin</option>
          <option value="teacher">Teacher</option>
          <option value="student">Student</option>
+      </select>
+	  </div>
+	</div>
+	<div>&nbsp;</div>
+	  	
+	  <div class="form-group row">
+	    <label class="col-sm-3" style="text-align:right;">Status :</label>
+	    <div class="col-sm-7">
+	    	<select class="form-control" name="status" required>
+         <option value="Active">Active</option>
+         <option value="Inactive">Inactive</option>
       </select>
 	  </div>
 	</div>

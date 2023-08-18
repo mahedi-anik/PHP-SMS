@@ -37,9 +37,9 @@
 					<div class="col-lg-12 col-md-12">
 						<div class="card" style="min-height:485px">
 							<div class="card-header card-header-text">
-								<h2 class="card-title" style="text-align: center;">Department Admins</h2>
+								<h2 class="card-title" style="text-align: center;">Students List</h2>
 								<hr>
-								<a href="add_admins.php" class="btn btn-primary mb-3">Add New</a>
+								<a href="add_student.php" class="btn btn-primary mb-3">Add New</a>
 							</div>
 							<div class="card-content table-responsive">
 								<?php
@@ -55,9 +55,9 @@
 									<thead class="text-primary">
 										<tr><th>ID</th>
 											<th>Name</th>
-											<th>User Name</th>
 											<th>Department</th>
-											<th>Role</th>
+											<th>Session</th>
+											<th>Section</th>
 											<th>Email</th>
 											<th>Mobile</th>
 											<th>Status</th>
@@ -68,20 +68,20 @@
 										<?php
 											@include 'config.php';
 
-											$query=mysqli_query($conn,"SELECT * from users left join department on users.departmentid=department.departmentid where users.role='department_admin' order by name asc ");
+											$query=mysqli_query($conn,"SELECT * from users left join department on users.departmentid=department.departmentid left join session on users.sessionid=session.sessionid left join section on users.sectionid=section.sectionid where users.role='student' order by name asc ");
 											while($row=mysqli_fetch_array($query)){
 											?>
 											<tr>
 												<td><?php echo ucwords($row['id']); ?></td>
-												<td><?php echo ucwords($row['name']); ?></td>
-												<td><?php echo ucwords($row['username']); ?></td>
+												<td><?php echo ucwords($row['name']); ?></td>										
 												<td><?php echo ucwords($row['departmentname']); ?></td>
-												<td><?php echo ucwords($row['role']); ?></td>
+												<td><?php echo ucwords($row['session']); ?></td>
+												<td><?php echo ucwords($row['sectionname']); ?></td>
 												<td><?php echo ucwords($row['email']); ?></td>
 												<td><?php echo ucwords($row['mobile']); ?></td>
 												<td><?php echo ucwords($row['status']); ?></td>
 												<td>
-													 <a href="edit_admins.php?id=<?php echo $row['id'] ?>&roleid=<?php echo $row['role'] ?>&status=<?php echo $row['status'] ?>&departmentid=<?php echo $row['departmentid'] ?>" ><i class="fa-solid fa-pen-to-square fs-5 me-3"></i></a>
+													 <a href="edit_student.php?id=<?php echo $row['id'] ?>&roleid=<?php echo $row['role'] ?>&status=<?php echo $row['status'] ?>&departmentid=<?php echo $row['departmentid'] ?>&sessionid=<?php echo $row['sessionid'] ?>&sectionid=<?php echo $row['sectionid'] ?>" ><i class="fa-solid fa-pen-to-square fs-5 me-3"></i></a>
 	              <a href="delete_admins.php?id=<?php echo $row['id'] ?>" class="link-danger"><i class="fa-solid fa-trash fs-5"></i></a>
 												</td>
 											</tr>

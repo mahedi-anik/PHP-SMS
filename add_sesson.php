@@ -14,8 +14,9 @@
 	include('config.php');
  if(isset($_POST['submit'])){
 	$session=$_POST['session'];
+	$courseid=$_POST['courseid'];
 
-	$select = " SELECT * FROM session WHERE session = '$session' ";
+	$select = " SELECT * FROM session WHERE session = '$session' && courseid='$courseid' ";
 
    $result = mysqli_query($conn, $select);
 
@@ -23,7 +24,7 @@
 
       $error[] = 'Session already exist!';
  }else{
-	mysqli_query($conn,"insert into session (session) values ('$session')");
+	mysqli_query($conn,"insert into session (session,courseid) values ('$session','$courseid')");
 	header('location:session.php');
  }
 };
@@ -78,6 +79,36 @@
 	      <input type="text" class="form-control" name="session" placeholder="session" required>
 	    </div>
 	  </div>
+	  <div>&nbsp;</div>
+	  	<div class="form-group row">
+	    <label  class="col-sm-3 col-form-label" style="text-align:right;">Course Name :</label>
+	    <div class="col-sm-7">
+		<select class="form-control" name="courseid" required>
+       <option value="">Select Course</option>
+    <?php 
+    $query ="SELECT course,courseid FROM course order by course asc";
+    $result = $conn->query($query);
+    if($result->num_rows> 0){
+        while($optionData=$result->fetch_assoc()){
+        $option =$optionData['course'];
+        $data =$optionData['courseid'];
+    ?>
+    <?php
+    //selected option
+    if(!empty($course) && $course == $option){
+    // selected option
+    ?>
+    <option value="<?php echo $data; ?>" selected><?php echo $option; ?> </option>
+    <?php 
+continue;
+   }?>
+    <option value="<?php echo $data; ?>" ><?php echo $option; ?> </option>
+   <?php
+    }}
+    ?>
+    </select>
+	  </div>
+	</div>
 	  <div>&nbsp;</div>
 	  <div style="text-align:center;">
 	               <button type="submit" class="btn btn-success" name="submit">Save</button>

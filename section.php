@@ -55,6 +55,7 @@
 								<thead class="text-primary">
 									<tr><th>ID</th>
 										<th>Session</th>
+										<th>Department</th>
 										<th>Section</th>
 										<th>Actions</th>
 									</tr>
@@ -63,15 +64,16 @@
 									<?php
 										@include 'config.php';
 
-										$query=mysqli_query($conn,"SELECT * from section LEFT JOIN session on section.sessionid=session.sessionid ");
+										$query=mysqli_query($conn,"SELECT * from section LEFT JOIN session on section.sessionid=session.sessionid left join department on section.departmentid=department.departmentid ");
 										while($row=mysqli_fetch_array($query)){
 										?>
 										<tr>
 											<td><?php echo ucwords($row['sectionid']); ?></td>
 											<td><?php echo ucwords($row['session']); ?></td>
+											<td><?php echo ucwords($row['departmentname']); ?></td>
 											<td><?php echo ucwords($row['sectionname']); ?></td>
 											<td>
-												 <a href="edit_section.php?id=<?php echo $row['sectionid'] ?>&existid=<?php echo $row['sessionid'] ?>" ><i class="fa-solid fa-pen-to-square fs-5 me-3"></i></a>
+												 <a href="edit_section.php?id=<?php echo $row['sectionid'] ?>&existid=<?php echo $row['sessionid'] ?>&departmentid=<?php echo $row['departmentid'] ?>" ><i class="fa-solid fa-pen-to-square fs-5 me-3"></i></a>
               <a href="delete_section.php?id=<?php echo $row['sectionid'] ?>" class="link-danger"><i class="fa-solid fa-trash fs-5"></i></a>
 											</td>
 										</tr>

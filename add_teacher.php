@@ -25,23 +25,25 @@ if(isset($_POST['submit'])){
    $role = mysqli_real_escape_string($conn, $_POST['role']);
    $status = mysqli_real_escape_string($conn, $_POST['status']);
    $departmentid = $_POST['departmentid'];
+   $address = $_POST['address'];
+   $courseid = $_POST['courseid'];
 
-   $select = " SELECT * FROM users WHERE username = '$username' && password = '$password' && email = '$email' ";
+   $select = " SELECT * FROM users WHERE username = '$username' && password = '$password' && departmentid = '$departmentid' ";
 
    $result = mysqli_query($conn, $select);
 
    if(mysqli_num_rows($result) > 0){
 
-      $error[] = 'Department Admin already exist!';
+      $error[] = 'Teacher already exist!';
 
    }else{
 
       if($password != $cpass){
          $error[] = 'password not matched!';
       }else{
-         $insert = "INSERT INTO users(name, username,email,mobile, password, role,status,departmentid) VALUES('$name','$username','$email','$mobile','$password','$role','$status','$departmentid')";
+         $insert = "INSERT INTO users(name, username,email,mobile, password, role,status,departmentid,address,courseid) VALUES('$name','$username','$email','$mobile','$password','$role','$status','$departmentid','$address','$courseid')";
          mysqli_query($conn, $insert);
-         header('location:admins.php');
+         header('location:teacher.php');
       }
    }
 
@@ -79,7 +81,7 @@ if(isset($_POST['submit'])){
 					<div class="col-lg-12 col-md-12">
 						<div class="card" style="min-height:485px">
 							<div class="card-header card-header-text">
-								<h2 class="card-title" style="text-align: center;">Add New Department Admin</h2>
+								<h2 class="card-title" style="text-align: center;">Add New Teacher</h2>
 								<hr>
 							</div>
 							<div class="card-content">
@@ -137,6 +139,36 @@ continue;
     </select>
 	    </div>
 	  </div>
+	  	  <div>&nbsp;</div>
+	  	<div class="form-group row">
+	    <label  class="col-sm-3 col-form-label" style="text-align:right;">Course Name :</label>
+	    <div class="col-sm-7">
+		<select class="form-control" name="courseid" required>
+       <option value="">Select Course</option>
+    <?php 
+    $query ="SELECT course,courseid FROM course order by course asc";
+    $result = $conn->query($query);
+    if($result->num_rows> 0){
+        while($optionData=$result->fetch_assoc()){
+        $option =$optionData['course'];
+        $data =$optionData['courseid'];
+    ?>
+    <?php
+    //selected option
+    if(!empty($course) && $course == $option){
+    // selected option
+    ?>
+    <option value="<?php echo $data; ?>" selected><?php echo $option; ?> </option>
+    <?php 
+continue;
+   }?>
+    <option value="<?php echo $data; ?>" ><?php echo $option; ?> </option>
+   <?php
+    }}
+    ?>
+    </select>
+	  </div>
+	</div>
 	  <div>&nbsp;</div>
 	  <div class="form-group row">
 	    <label  class="col-sm-3" style="text-align:right;">Email:</label>
@@ -148,8 +180,15 @@ continue;
 	  <div class="form-group row">
 	    <label  class="col-sm-3" style="text-align:right;">Mobile No:</label>
 	    <div class="col-sm-7">
-<input class="form-control" maxlength="11" minlength="11" 
+<input class="form-control" maxlength="11" minlength="11" name="mobile"
                         oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  required placeholder="enter your mobile no.">
+	  </div>
+	</div>
+		  <div>&nbsp;</div>
+	  <div class="form-group row">
+	    <label  class="col-sm-3" style="text-align:right;">Address:</label>
+	    <div class="col-sm-7">
+<input type="text" class="form-control" name="address" required placeholder="enter your address">
 	  </div>
 	</div>
 	  <div>&nbsp;</div>
@@ -172,7 +211,7 @@ continue;
 	    <label class="col-sm-3" style="text-align:right;">Role :</label>
 	    <div class="col-sm-7">
 	    	<select class="form-control" name="role" required>
-         <option value="department_admin">Department Admin</option>
+         <option value="teacher">Teacher</option>
       </select>
 	  </div>
 	</div>
@@ -190,7 +229,7 @@ continue;
 	  <div>&nbsp;</div>
 	  <div style="text-align:center;">
 	               <button type="submit" class="btn btn-success" name="submit">Save</button>
-	               <a href="admins.php" class="btn btn-danger">Cancel</a>
+	               <a href="teacher.php" class="btn btn-danger">Cancel</a>
 	            </div>
 								</div>
 

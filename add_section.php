@@ -15,8 +15,9 @@
  if(isset($_POST['submit'])){
 	$sessionid=$_POST['sessionid'];
 	$sectionname=$_POST['sectionname'];
+	$departmentid=$_POST['departmentid'];
 
-	$select = " SELECT * from section LEFT JOIN session on section.sessionid=session.sessionid WHERE section.sessionid = '$sessionid' and section.sectionname= '$sectionname' ";
+	$select = " SELECT * from section LEFT JOIN session on section.sessionid=session.sessionid WHERE section.sessionid = '$sessionid' and section.sectionname= '$sectionname' and section.departmentid='$departmentid' ";
 
    $result = mysqli_query($conn, $select);
 
@@ -24,7 +25,7 @@
 
       $error[] = 'Section already exist!';
  }else{
-	mysqli_query($conn,"insert into section (sessionid,sectionname) values ('$sessionid','$sectionname')");
+	mysqli_query($conn,"insert into section (sessionid,sectionname,departmentid) values ('$sessionid','$sectionname','$departmentid')");
 	header('location:section.php');
  }
 };
@@ -79,7 +80,7 @@
 		<select class="form-control" name="sessionid" required>
        <option value="">Select Session</option>
     <?php 
-    $query ="SELECT session,sessionid FROM session order by session asc";
+    $query ="SELECT CONCAT(session,'-',course) as session,sessionid FROM session left join course on session.courseid=course.courseid order by session asc";
     $result = $conn->query($query);
     if($result->num_rows> 0){
         while($optionData=$result->fetch_assoc()){
@@ -100,6 +101,36 @@ continue;
     }}
     ?>
     </select>
+	  </div>
+	  <div>&nbsp;</div>
+	  	  <div class="form-group row">
+	    <label  class="col-sm-3 col-form-label" style="text-align:right;">Department Name :</label>
+	    <div class="col-sm-7">
+	      <select class="form-control" name="departmentid" required>
+       <option value="">Select Department</option>
+    <?php 
+    $query ="SELECT * FROM department order by departmentname asc ";
+    $result = $conn->query($query);
+    if($result->num_rows> 0){
+        while($optionData=$result->fetch_assoc()){
+        $option =$optionData['departmentname'];
+        $data =$optionData['departmentid'];
+    ?>
+    <?php
+    //selected option
+    if(!empty($departmentname) && $departmentname== $option){
+    // selected option
+    ?>
+    <option value="<?php echo $data; ?>" selected><?php echo $option; ?> </option>
+    <?php 
+continue;
+   }?>
+    <option value="<?php echo $data; ?>" ><?php echo $option; ?> </option>
+   <?php
+    }}
+    ?>
+    </select>
+	    </div>
 	  </div>
 	  <div>&nbsp;</div>
 	  <div class="form-group row">

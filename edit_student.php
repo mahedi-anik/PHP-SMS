@@ -17,6 +17,10 @@
 $id = $_GET["id"];
 $roleid=$_GET["roleid"];
 $status=$_GET["status"];
+$departmentid=$_GET["departmentid"];
+$sessionid=$_GET["sessionid"];
+$sectionid=$_GET["sectionid"];
+
 
 if(isset($_POST['submit'])){
 
@@ -28,13 +32,18 @@ if(isset($_POST['submit'])){
    $cpass = md5($_POST['cpassword']);
    $roleid = mysqli_real_escape_string($conn, $_POST['roleid']);
 	$status=$_POST['status'];
+	$departmentid = $_POST['departmentid'];
+	$address = $_POST['address'];
+   $sessionid = $_POST['sessionid'];
+   $sectionid = $_POST['sectionid'];
+
 
    if($password != $cpass){
          $error[] = 'password not matched!';
       }else{
-         $insert = "UPDATE `users` SET `name`='$name',`username`='$username',`email`='$email',`mobile`='$mobile',`password`='$password',`role`='$roleid',`status`='$status' WHERE id = $id";
+         $insert = "UPDATE `users` SET `name`='$name',`username`='$username',`email`='$email',`mobile`='$mobile',`password`='$password',`role`='$roleid',`status`='$status',`departmentid`='$departmentid',`address`='$address',`sessionid`='$sessionid',`sectionid`='$sectionid' WHERE id = $id";
          mysqli_query($conn, $insert);
-         header('location:register.php');
+         header('location:student.php');
       }
 
 }
@@ -69,9 +78,9 @@ if(isset($_POST['submit'])){
 				<form action="" method="post">
 				<div class="row">
 					<div class="col-lg-12 col-md-12">
-						<div class="card" style="min-height:485px">
+						<div class="card" style="min-height:500px">
 							<div class="card-header card-header-text">
-								<h2 class="card-title" style="text-align: center;">Update User Info</h2>
+								<h2 class="card-title" style="text-align: center;">Update Student Info </h2>
 								<hr>
 							</div>
 							<div class="card-content">
@@ -90,6 +99,7 @@ if(isset($_POST['submit'])){
     $result = mysqli_query($conn, $sql);
     $row = mysqli_fetch_assoc($result);
     ?>
+ </div>
 								<div class="form-group row">
 	    <label  class="col-sm-3" style="text-align:right;">Name :</label>
 	    <div class="col-sm-7">
@@ -104,6 +114,96 @@ if(isset($_POST['submit'])){
 <input type="text" class="form-control" name="username" required value="<?php echo $row['username'] ?>">
 	  </div>
 	</div>
+	<div>&nbsp;</div>
+	  	  <div class="form-group row">
+	    <label  class="col-sm-3 col-form-label" style="text-align:right;">Department Name :</label>
+	    <div class="col-sm-7">
+	      <select class="form-control" name="departmentid" required>
+       <option value="">Select Department</option>
+    <?php 
+    $query ="SELECT * FROM department order by departmentname asc ";
+    $result = $conn->query($query);
+    if($result->num_rows> 0){
+        while($optionData=$result->fetch_assoc()){
+        $option =$optionData['departmentname'];
+        $data =$optionData['departmentid'];
+    ?>
+    <?php
+    //selected option
+    if(!empty($departmentname) && $departmentname== $option){
+    // selected option
+    ?>
+    <option value="<?php echo $data; ?>" selected><?php echo $option; ?> </option>
+    <?php 
+continue;
+   }?>
+    <option value="<?php echo $data; ?>"<?php if($data == $departmentid) { ?> selected="selected"<?php } ?> ><?php echo $option; ?> </option>
+   <?php
+    }}
+    ?>
+    </select>
+	    </div>
+	  </div>
+	  <div>&nbsp;</div>
+	  	<div class="form-group row">
+	    <label  class="col-sm-3 col-form-label" style="text-align:right;">Session Name :</label>
+	    <div class="col-sm-7">
+		<select class="form-control" name="sessionid"  required>
+       <option value="">Select Session</option>
+    <?php 
+    $query ="SELECT session,sessionid FROM session order by session asc";
+    $result = $conn->query($query);
+    if($result->num_rows> 0){
+        while($optionData=$result->fetch_assoc()){
+        $option =$optionData['session'];
+        $data =$optionData['sessionid'];
+    ?>
+    <?php
+    //selected option
+    if(!empty($session) && $session == $option){
+    // selected option
+    ?>
+    <option value="<?php echo $data; ?>" selected><?php echo $option; ?> </option>
+    <?php 
+continue;
+   }?>
+    <option value="<?php echo $data; ?>"<?php if($data == $sessionid) { ?> selected="selected"<?php } ?> ><?php echo $option; ?> </option>
+   <?php
+    }}
+    ?>
+    </select>
+	  </div>
+	</div>
+		  	  <div>&nbsp;</div>
+	  	<div class="form-group row">
+	    <label  class="col-sm-3 col-form-label" style="text-align:right;">Section Name :</label>
+	    <div class="col-sm-7">
+		<select class="form-control" name="sectionid"  required>
+       <option value="">Select Session</option>
+    <?php 
+    $query ="SELECT sectionname,sectionid FROM section order by sectionname asc";
+    $result = $conn->query($query);
+    if($result->num_rows> 0){
+        while($optionData=$result->fetch_assoc()){
+        $option =$optionData['sectionname'];
+        $data =$optionData['sectionid'];
+    ?>
+    <?php
+    //selected option
+    if(!empty($sectionname) && $sectionname == $option){
+    // selected option
+    ?>
+    <option value="<?php echo $data; ?>" selected><?php echo $option; ?> </option>
+    <?php 
+continue;
+   }?>
+    <option value="<?php echo $data; ?>"<?php if($data == $sectionid) { ?> selected="selected"<?php } ?> ><?php echo $option; ?> </option>
+   <?php
+    }}
+    ?>
+    </select>
+	  </div>
+	</div>
 	  <div>&nbsp;</div>
 	  <div class="form-group row">
 	    <label  class="col-sm-3" style="text-align:right;">Email:</label>
@@ -115,7 +215,15 @@ if(isset($_POST['submit'])){
 	  <div class="form-group row">
 	    <label  class="col-sm-3" style="text-align:right;">Mobile No:</label>
 	    <div class="col-sm-7">
-<input class="form-control" name="mobile" maxlength="11" required value="<?php echo $row['mobile'] ?>">
+<input class="form-control" name="mobile" mamaxlength="11" minlength="11" 
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" required value="<?php echo $row['mobile'] ?>">
+	  </div>
+	</div>
+	<div>&nbsp;</div>
+	  <div class="form-group row">
+	    <label  class="col-sm-3" style="text-align:right;">Address:</label>
+	    <div class="col-sm-7">
+<input type="text" class="form-control" name="address" required value="<?php echo $row['address'] ?>">
 	  </div>
 	</div>
 	  <div>&nbsp;</div>
@@ -167,7 +275,6 @@ if(isset($_POST['submit'])){
             }
          ?>>Student</option>
       </select>
-      </select>
 	  </div>
 	</div>
 	<div>&nbsp;</div>
@@ -195,7 +302,7 @@ if(isset($_POST['submit'])){
 	  <div>&nbsp;</div>
 	  <div style="text-align:center;">
 	               <button type="submit" class="btn btn-success" name="submit">Update</button>
-	               <a href="register.php" class="btn btn-danger">Cancel</a>
+	               <a href="student.php" class="btn btn-danger">Cancel</a>
 	            </div>
 								</div>
 

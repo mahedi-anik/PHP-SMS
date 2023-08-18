@@ -11,3 +11,20 @@ if (!empty($_POST["id"])) {
         }
     }
 }
+?>
+
+<?php
+@include 'config.php';
+if (!empty($_POST["sessionid"])) {
+    $sessionid = $_POST['sessionid'];
+    $query = "SELECT concat(sectionname,'-',departmentname) as sectionname,sectionid from section left join department on section.departmentid=department.departmentid  where section.sessionid=$sessionid";
+    $result = $conn->query($query);
+    if ($result->num_rows > 0) {
+        echo '<option value="">Select Section</option>';
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo '<option value="' . $row['sectionid'] . '">' . $row['sectionname'] . '</option>';
+        }
+    }
+}
+?>
+

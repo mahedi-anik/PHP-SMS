@@ -55,6 +55,7 @@
 								<thead class="text-primary">
 									<tr><th>ID</th>
 										<th>Session</th>
+										<th>Course</th>
 										<th>Actions</th>
 									</tr>
 								</thead>
@@ -62,14 +63,15 @@
 									<?php
 										@include 'config.php';
 
-										$query=mysqli_query($conn,"select * from `session`");
+										$query=mysqli_query($conn,"select * from session left join course on session.courseid=course.courseid order by session desc ");
 										while($row=mysqli_fetch_array($query)){
 										?>
 										<tr>
 											<td><?php echo ucwords($row['sessionid']); ?></td>
 											<td><?php echo ucwords($row['session']); ?></td>
+											<td><?php echo ucwords($row['course']); ?></td>
 											<td>
-												 <a href="edit_session.php?id=<?php echo $row['sessionid'] ?>" ><i class="fa-solid fa-pen-to-square fs-5 me-3"></i></a>
+												 <a href="edit_session.php?id=<?php echo $row['sessionid'] ?>&courseid=<?php echo $row['courseid'] ?>" ><i class="fa-solid fa-pen-to-square fs-5 me-3"></i></a>
               <a href="delete_session.php?id=<?php echo $row['sessionid'] ?>" class="link-danger"><i class="fa-solid fa-trash fs-5"></i></a>
 											</td>
 										</tr>
