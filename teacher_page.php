@@ -41,7 +41,7 @@
                         <h1 style="text-align: center;">welcome <mark><span><?php echo $_SESSION['user'] ?></span></mark></h1>
                         <hr>
                         <h3>Welcome back <span><?php echo $_SESSION['user'] ?></span>!</h3>
-                        <p>First of all, We want to congratulate you on taking this significant step in your life. You have chosen a path that will shape your future and determine the kind of life you will lead. As a fresher, you are filled with hope and ambition, and we encourage you to take a moment to reflect on the road that has brought you here. We know that you have worked hard and overcome many obstacles to reach this point. So, take a moment to savor this achievement and be proud of yourselves.</p>
+                        <p>We would like to take this opportunity to welcome you to our practice and to thank you for choosing our University. We are obliged to you, for choosing this valued profession. Many people don’t think of it as important as doctors, engineers. But who is the one who makes them, who are the worthy personalities who make students able to be at the superior level?</p>
                      </div>
                      <div class="card-content ">
                         </div>

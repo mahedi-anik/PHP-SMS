@@ -36,7 +36,7 @@ if(isset($_POST['submit'])){
 
          $_SESSION['user'] = $row['name'];
          $_SESSION['role'] = $row['role'];
-         header('location:user_page.php');
+         header('location:teacher_page.php');
 
       }elseif($row['role'] == 'student'){
 
