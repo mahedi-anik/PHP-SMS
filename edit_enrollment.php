@@ -15,13 +15,17 @@ include "config.php";
 $id = $_GET["id"];
 $userid=$_GET["userid"];
 $sectionid=$_GET["sectionid"];
+$sessionid=$_GET['sessionid'];
+$departmentid=$_GET['departmentid'];
 
 if (isset($_POST["submit"])) {
 	$studentid=$_POST['studentid'];
 	$sectionid=$_POST['sectionid'];
+	$sessionid=$_POST['sessionid'];
+	$departmentid=$_POST['departmentid'];
 
 
-  $sql = "UPDATE `enrollments` SET `studentid`='$studentid',`sectionid`='$sectionid' WHERE enrollmentid = $id";
+  $sql = "UPDATE `enrollments` SET `studentid`='$studentid',`sectionid`='$sectionid',`sessionid`='$sessionid',`departmentid`='$departmentid' WHERE enrollmentid = $id";
 
   $result = mysqli_query($conn, $sql);
 
@@ -73,9 +77,99 @@ if (isset($_POST["submit"])) {
     $row = mysqli_fetch_assoc($result);
     ?>
 								<div class="form-group row">
-	    <label  class="col-sm-3 col-form-label" style="text-align:right;">Student Name :</label>
+	    <label  class="col-sm-3 col-form-label" style="text-align:right;">Department Name :</label>
 	    <div class="col-sm-7">
-	      <select class="form-control" name="studentid" required>
+	      <select class="form-control" name="departmentid" required>
+       <option value="">Select Department</option>
+    <?php 
+    $query ="SELECT * FROM department order by departmentname asc ";
+    $result = $conn->query($query);
+    if($result->num_rows> 0){
+        while($optionData=$result->fetch_assoc()){
+        $option =$optionData['departmentname'];
+        $data =$optionData['departmentid'];
+    ?>
+    <?php
+    //selected option
+    if(!empty($departmentname) && $departmentname== $option){
+    // selected option
+    ?>
+    <option value="<?php echo $data; ?>" selected><?php echo $option; ?> </option>
+    <?php 
+continue;
+   }?>
+    <option value="<?php echo $data; ?>"<?php if($data == $departmentid) { ?> selected="selected"<?php } ?> ><?php echo $option; ?> </option>
+   <?php
+    }}
+    ?>
+    </select>
+	    </div>
+	  </div>
+	  <div>&nbsp;</div>
+	  	<div class="form-group row">
+	    <label  class="col-sm-3 col-form-label" style="text-align:right;">Session Name :</label>
+	    <div class="col-sm-7">
+		<select class="form-control" name="sessionid"  required>
+       <option value="">Select Session</option>
+    <?php 
+    $query ="SELECT CONCAT(session,'-',course) as session,sessionid FROM session left join course on session.courseid=course.courseid order by session asc";
+    $result = $conn->query($query);
+    if($result->num_rows> 0){
+        while($optionData=$result->fetch_assoc()){
+        $option =$optionData['session'];
+        $data =$optionData['sessionid'];
+    ?>
+    <?php
+    //selected option
+    if(!empty($session) && $session == $option){
+    // selected option
+    ?>
+    <option value="<?php echo $data; ?>" selected><?php echo $option; ?> </option>
+    <?php 
+continue;
+   }?>
+    <option value="<?php echo $data; ?>"<?php if($data == $sessionid) { ?> selected="selected"<?php } ?> ><?php echo $option; ?> </option>
+   <?php
+    }}
+    ?>
+    </select>
+	  </div>
+	</div>
+		  	  <div>&nbsp;</div>
+	  	<div class="form-group row">
+	    <label  class="col-sm-3 col-form-label" style="text-align:right;">Section Name :</label>
+	    <div class="col-sm-7">
+		<select class="form-control" name="sectionid"  required>
+       <option value="">Select Session</option>
+    <?php 
+    $query ="SELECT concat(sectionname,'-',departmentname) as sectionname,sectionid from section left join department on section.departmentid=department.departmentid  where section.sessionid=$sessionid";
+    $result = $conn->query($query);
+    if($result->num_rows> 0){
+        while($optionData=$result->fetch_assoc()){
+        $option =$optionData['sectionname'];
+        $data =$optionData['sectionid'];
+    ?>
+    <?php
+    //selected option
+    if(!empty($sectionname) && $sectionname == $option){
+    // selected option
+    ?>
+    <option value="<?php echo $data; ?>" selected><?php echo $option; ?> </option>
+    <?php 
+continue;
+   }?>
+    <option value="<?php echo $data; ?>"<?php if($data == $sectionid) { ?> selected="selected"<?php } ?> ><?php echo $option; ?> </option>
+   <?php
+    }}
+    ?>
+    </select>
+	  </div>
+	</div>
+	  <div>&nbsp;</div>
+	  <div class="form-group row">
+	    <label  class="col-sm-3 col-form-label" style="text-align:right;">Student Name:</label>
+	    <div class="col-sm-7">
+		<select class="form-control" name="studentid" required>
        <option value="">Select User</option>
     <?php 
     $query ="SELECT * FROM users where role='student' order by name asc ";
@@ -99,38 +193,8 @@ continue;
     }}
     ?>
     </select>
-	    </div>
-	</div>
-	  <div>&nbsp;</div>
-	  <div class="form-group row">
-	    <label  class="col-sm-3 col-form-label" style="text-align:right;">Section :</label>
-	    <div class="col-sm-7">
-	      <select class="form-control" name="sectionid" required>
-       <option value="">Select Section</option>
-    <?php 
-    $query ="SELECT * FROM section order by sectionname asc ";
-    $result = $conn->query($query);
-    if($result->num_rows> 0){
-        while($optionData=$result->fetch_assoc()){
-        $option =$optionData['sectionname'];
-        $data =$optionData['sectionid'];
-    ?>
-    <?php
-    //selected option
-    if(!empty($sectionname) && $sectionname== $option){
-    // selected option
-    ?>
-    <option value="<?php echo $data; ?>" selected><?php echo $option; ?> </option>
-    <?php 
-continue;
-   }?>
-    <option value="<?php echo $data; ?>"<?php if($data == $sectionid) { ?> selected="selected"<?php } ?> ><?php echo $option; ?> </option>
-   <?php
-    }}
-    ?>
-    </select>
-	    </div>
 	  </div>
+	</div>
 	  <div>&nbsp;</div>
 	  <div style="text-align:center;">
 	               <button type="submit" class="btn btn-success" name="submit">Update</button>

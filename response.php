@@ -27,4 +27,18 @@ if (!empty($_POST["sessionid"])) {
     }
 }
 ?>
+<?php
+@include 'config.php';
+if (!empty($_POST["sectionid"])) {
+    $sectionid = $_POST['sectionid'];
+    $query = "select name,id from users where sectionid=$sectionid";
+    $result = $conn->query($query);
+    if ($result->num_rows > 0) {
+        echo '<option value="">Select Student</option>';
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo '<option value="' . $row['id'] . '">' . $row['name'] . '</option>';
+        }
+    }
+}
+?>
 

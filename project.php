@@ -56,6 +56,9 @@
 										<tr><th>ID</th>
 											<th>Project</th>
 											<th>Student</th>
+											<th>Session</th>
+											<th>Section</th>
+											<th>Description</th>
 											<th>Status</th>
 											<th>Actions</th>
 										</tr>
@@ -64,16 +67,19 @@
 										<?php
 											@include 'config.php';
 
-											$query=mysqli_query($conn,"SELECT * from projectidea LEFT JOIN users on projectidea.studentid=users.id ");
+											$query=mysqli_query($conn,"SELECT * from projectidea LEFT JOIN users on projectidea.studentid=users.id left join session on projectidea.sessionid=session.sessionid left join section on projectidea.sectionid=section.sectionid ");
 											while($row=mysqli_fetch_array($query)){
 											?>
 											<tr>
 												<td><?php echo ucwords($row['projectideaid']); ?></td>
 												<td><?php echo ucwords($row['project']); ?></td>
 												<td><?php echo ucwords($row['name']); ?></td>
+												<td><?php echo ucwords($row['session']); ?></td>
+												<td><?php echo ucwords($row['sectionname']); ?></td>
+												<td><?php echo ucwords($row['description']); ?></td>
 												<td><?php echo ucwords($row['status']); ?></td>
 												<td>
-													 <a href="edit_project.php?id=<?php echo $row['projectideaid'] ?>&userid=<?php echo $row['studentid'] ?>&status=<?php echo $row['status'] ?>" ><i class="fa-solid fa-pen-to-square fs-5 me-3"></i></a>
+													 <a href="edit_project.php?id=<?php echo $row['projectideaid'] ?>&userid=<?php echo $row['studentid'] ?>&status=<?php echo $row['status'] ?>&sessionid=<?php echo $row['sessionid'] ?>&sectionid=<?php echo $row['sectionid'] ?>" ><i class="fa-solid fa-pen-to-square fs-5 me-3"></i></a>
 	              <a href="delete_project.php?id=<?php echo $row['projectideaid'] ?>" class="link-danger"><i class="fa-solid fa-trash fs-5"></i></a>
 												</td>
 											</tr>

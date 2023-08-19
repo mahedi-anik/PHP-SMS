@@ -15,6 +15,8 @@ include "config.php";
 $id = $_GET["id"];
 $userid=$_GET["userid"];
 $status=$_GET["status"];
+$sessionid=$_GET["sessionid"];
+$sectionid=$_GET["sectionid"];
 
 
 
@@ -22,9 +24,12 @@ if (isset($_POST["submit"])) {
     $project=$_POST['project'];
     $studentid=$_POST['studentid'];
     $status=$_POST['status'];
+    $sessionid=$_POST['sessionid'];
+    $sectionid=$_POST['sectionid'];
+    $description=$_POST['description'];
 
 
-  $sql = "UPDATE `projectidea` SET `project`='$project',`studentid`='$studentid',`status`='$status' WHERE projectideaid = $id";
+  $sql = "UPDATE `projectidea` SET `project`='$project',`studentid`='$studentid',`status`='$status',`sessionid`='$sessionid',`sectionid`='$sectionid',`description`='$description' WHERE projectideaid = $id";
 
   $result = mysqli_query($conn, $sql);
 
@@ -64,6 +69,66 @@ if (isset($_POST["submit"])) {
           <input type="text" class="form-control" name="project" value="<?php echo $row['project'] ?>" required>
         </div>
       </div>
+      <div>&nbsp;</div>
+        <div class="form-group row">
+        <label  class="col-sm-3 col-form-label" style="text-align:right;">Session Name :</label>
+        <div class="col-sm-7">
+        <select class="form-control" name="sessionid"  required>
+       <option value="">Select Session</option>
+    <?php 
+    $query ="SELECT CONCAT(session,'-',course) as session,sessionid FROM session left join course on session.courseid=course.courseid order by session asc";
+    $result = $conn->query($query);
+    if($result->num_rows> 0){
+        while($optionData=$result->fetch_assoc()){
+        $option =$optionData['session'];
+        $data =$optionData['sessionid'];
+    ?>
+    <?php
+    //selected option
+    if(!empty($session) && $session == $option){
+    // selected option
+    ?>
+    <option value="<?php echo $data; ?>" selected><?php echo $option; ?> </option>
+    <?php 
+continue;
+   }?>
+    <option value="<?php echo $data; ?>"<?php if($data == $sessionid) { ?> selected="selected"<?php } ?> ><?php echo $option; ?> </option>
+   <?php
+    }}
+    ?>
+    </select>
+      </div>
+    </div>
+              <div>&nbsp;</div>
+        <div class="form-group row">
+        <label  class="col-sm-3 col-form-label" style="text-align:right;">Section Name :</label>
+        <div class="col-sm-7">
+        <select class="form-control" name="sectionid"  required>
+       <option value="">Select Session</option>
+    <?php 
+    $query ="SELECT concat(sectionname,'-',departmentname) as sectionname,sectionid from section left join department on section.departmentid=department.departmentid  where section.sessionid=$sessionid";
+    $result = $conn->query($query);
+    if($result->num_rows> 0){
+        while($optionData=$result->fetch_assoc()){
+        $option =$optionData['sectionname'];
+        $data =$optionData['sectionid'];
+    ?>
+    <?php
+    //selected option
+    if(!empty($sectionname) && $sectionname == $option){
+    // selected option
+    ?>
+    <option value="<?php echo $data; ?>" selected><?php echo $option; ?> </option>
+    <?php 
+continue;
+   }?>
+    <option value="<?php echo $data; ?>"<?php if($data == $sectionid) { ?> selected="selected"<?php } ?> ><?php echo $option; ?> </option>
+   <?php
+    }}
+    ?>
+    </select>
+      </div>
+    </div>
 	  <div>&nbsp;</div>
 	  <div class="form-group row">
 	    <label  class="col-sm-3 col-form-label" style="text-align:right;">Student Name :</label>
@@ -94,6 +159,13 @@ continue;
     </select>
 	  </div>
     </div>
+      <div>&nbsp;</div>
+      <div class="form-group row">
+        <label  class="col-sm-3 col-form-label" style="text-align:right;">Description:</label>
+        <div class="col-sm-7">
+          <input type="text" class="form-control" name="description" value="<?php echo $row['description'] ?>" required>
+        </div>
+      </div>
       <div>&nbsp;</div>
           <div class="form-group row">
         <label  class="col-sm-3 col-form-label" style="text-align:right;">Status :</label>

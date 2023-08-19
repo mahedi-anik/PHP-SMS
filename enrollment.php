@@ -54,8 +54,10 @@
 								<table class="table table-hover">
 									<thead class="text-primary">
 										<tr><th>ID</th>
-											<th>Section</th>
 											<th>Student</th>
+											<th>Department</th>
+											<th>Session</th>
+											<th>Section</th>
 											<th>Actions</th>
 										</tr>
 									</thead>
@@ -63,15 +65,17 @@
 										<?php
 											@include 'config.php';
 
-											$query=mysqli_query($conn,"SELECT * from enrollments LEFT JOIN users on enrollments.studentid=users.id LEFT JOIN section on enrollments.sectionid=section.sectionid ");
+											$query=mysqli_query($conn,"SELECT * from enrollments LEFT JOIN users on enrollments.studentid=users.id LEFT JOIN section on enrollments.sectionid=section.sectionid left join session on enrollments.sessionid=session.sessionid left join department on enrollments.departmentid=department.departmentid ");
 											while($row=mysqli_fetch_array($query)){
 											?>
 											<tr>
 												<td><?php echo ucwords($row['enrollmentid']); ?></td>
-												<td><?php echo ucwords($row['sectionname']); ?></td>
 												<td><?php echo ucwords($row['name']); ?></td>
+												<td><?php echo ucwords($row['departmentname']); ?></td>
+												<td><?php echo ucwords($row['session']); ?></td>
+												<td><?php echo ucwords($row['sectionname']); ?></td>
 												<td>
-													 <a href="edit_enrollment.php?id=<?php echo $row['enrollmentid'] ?>&userid=<?php echo $row['studentid'] ?>&sectionid=<?php echo $row['sectionid'] ?>" ><i class="fa-solid fa-pen-to-square fs-5 me-3"></i></a>
+													 <a href="edit_enrollment.php?id=<?php echo $row['enrollmentid'] ?>&userid=<?php echo $row['studentid'] ?>&sectionid=<?php echo $row['sectionid'] ?>&sessionid=<?php echo $row['sessionid'] ?>&departmentid=<?php echo $row['departmentid'] ?>" ><i class="fa-solid fa-pen-to-square fs-5 me-3"></i></a>
 	              <a href="delete_enrollment.php?id=<?php echo $row['enrollmentid'] ?>" class="link-danger"><i class="fa-solid fa-trash fs-5"></i></a>
 												</td>
 											</tr>

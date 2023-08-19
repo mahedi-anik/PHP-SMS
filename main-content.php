@@ -10,19 +10,16 @@
 					   </div>
 					   <div class="card-content">
 					       <p class="category"><strong>Total Teachers</strong></p>
-						   <h3 class="card-title"><?php 
-						   @include 'config.php';
- $sql = "SELECT * FROM `users` WHERE role='teacher'";
- $result = mysqli_query($conn,$sql);
- if($teacher=mysqli_num_rows(result))
- {
- 	echo ''.$result.'';
- }
- else
- {
- 	echo '0';
- }
- ?> </h3>
+						   <h3 class="card-title">
+						   	<?php
+@include 'config.php';
+
+$sql = "SELECT COUNT(*) as count FROM users where role='teacher' ";
+$result = $conn->query($sql);
+$my=$result['count'];
+echo $my;
+?>
+						    </h3>
 					   </div>
 	
 					</div>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 18, 2023 at 03:03 PM
+-- Generation Time: Aug 19, 2023 at 11:38 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -97,17 +97,19 @@ INSERT INTO `department` (`departmentid`, `departmentname`, `remarks`) VALUES
 CREATE TABLE `enrollments` (
   `enrollmentid` int(11) NOT NULL,
   `sectionid` int(11) NOT NULL,
-  `studentid` int(11) NOT NULL
+  `studentid` int(11) NOT NULL,
+  `sessionid` int(11) DEFAULT NULL,
+  `departmentid` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `enrollments`
 --
 
-INSERT INTO `enrollments` (`enrollmentid`, `sectionid`, `studentid`) VALUES
-(1, 4, 9),
-(2, 3, 8),
-(3, 3, 7);
+INSERT INTO `enrollments` (`enrollmentid`, `sectionid`, `studentid`, `sessionid`, `departmentid`) VALUES
+(4, 3, 9, 10, 3),
+(5, 3, 8, 10, 3),
+(6, 3, 7, 10, 3);
 
 -- --------------------------------------------------------
 
@@ -153,16 +155,21 @@ CREATE TABLE `projectidea` (
   `projectideaid` int(11) NOT NULL,
   `project` varchar(200) NOT NULL,
   `studentid` int(11) NOT NULL,
-  `status` varchar(10) NOT NULL
+  `status` varchar(10) NOT NULL,
+  `sessionid` int(11) DEFAULT NULL,
+  `sectionid` int(11) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `projectidea`
 --
 
-INSERT INTO `projectidea` (`projectideaid`, `project`, `studentid`, `status`) VALUES
-(1, 'University Management System', 7, 'Active'),
-(2, 'University Website', 9, 'Inactive');
+INSERT INTO `projectidea` (`projectideaid`, `project`, `studentid`, `status`, `sessionid`, `sectionid`, `description`) VALUES
+(3, 'University Management System', 7, 'Active', 10, 3, 'fkajhelfkjhclaekjfcilaksfcdilasfkcdjailes'),
+(4, 'University Management System', 8, 'Active', 10, 3, 'aeruidfhoqiauedfhcoilauwekdhcoik'),
+(5, 'University Website', 10, 'Inactive', 10, 4, 'wsrefhoiwejkrhadhdtrthedsrygsd'),
+(6, 'University Website', 15, 'Active', 10, 4, 'qfraecdiujkqaelsdksetgf');
 
 -- --------------------------------------------------------
 
@@ -247,9 +254,9 @@ INSERT INTO `users` (`id`, `name`, `username`, `password`, `role`, `created`, `e
 (5, 'Teacher 1', 'teacher1', '41c8949aa55b8cb5dbec662f34b62df3', 'teacher', '2023-08-18 08:55:53', 'teacher1@gmail.com', 'Dhaka', NULL, NULL, 4, 5, 'Active', '054682742584'),
 (6, 'Teacher 2', 'teacher2', 'ccffb0bb993eeb79059b31e1611ec353', 'teacher', '2023-08-15 08:18:50', '', NULL, NULL, NULL, NULL, NULL, NULL, ''),
 (7, 'Student 1', 'student1', '5e5545d38a68148a2d5bd5ec9a89e327', 'student', '2023-08-18 11:04:24', 'student1@gmai.com', 'Dhaka', 10, 3, NULL, 5, 'Active', '01700000006'),
-(8, 'Student 2', 'student2', '213ee683360d88249109c2f92789dbc3', 'student', '2023-08-15 15:37:07', '', NULL, NULL, NULL, NULL, NULL, NULL, ''),
-(9, 'Student 3', 'student3', '8e4947690532bc44a8e41e9fb365b76a', 'student', '2023-08-15 15:37:35', '', NULL, NULL, NULL, NULL, NULL, NULL, ''),
-(10, 'Student 4', 'student4', '166a50c910e390d922db4696e4c7747b', 'student', '2023-08-18 04:17:12', 'student4@gmai.com', NULL, NULL, NULL, NULL, NULL, 'Inactive', '01900000000'),
+(8, 'Student 2', 'student2', '213ee683360d88249109c2f92789dbc3', 'student', '2023-08-19 06:41:05', '', NULL, 10, 3, 4, 5, NULL, ''),
+(9, 'Student 3', 'student3', '8e4947690532bc44a8e41e9fb365b76a', 'student', '2023-08-19 06:41:41', '', NULL, 10, 3, 4, 5, NULL, ''),
+(10, 'Student 4', 'student4', '166a50c910e390d922db4696e4c7747b', 'student', '2023-08-19 06:43:20', 'student4@gmai.com', NULL, 10, 4, NULL, 3, 'Inactive', '01900000000'),
 (11, 'Department Admin 3', 'departmentadmin3', 'eb124994225d6a0df94872cab7010c7b', 'department_admin', '2023-08-18 05:47:22', 'departmentadmin3@gmail.com', NULL, NULL, NULL, NULL, 4, 'Active', '01964222222'),
 (12, 'Department Admin 4', 'departmentadmin4', '9dffeebda0291a5b18741076e7951ae2', 'department_admin', '2023-08-18 05:48:20', 'departmentadmin4@gmail.com', NULL, NULL, NULL, NULL, 3, 'Active', '01783000000'),
 (13, 'Teacher 3', 'teacher3', '82470256ea4b80343b27afccbca1015b', 'teacher', '2023-08-18 08:30:45', 'teacher3@gmail.com', NULL, NULL, NULL, NULL, 4, 'Active', ''),
@@ -346,7 +353,7 @@ ALTER TABLE `department`
 -- AUTO_INCREMENT for table `enrollments`
 --
 ALTER TABLE `enrollments`
-  MODIFY `enrollmentid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `enrollmentid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `grades`
@@ -364,7 +371,7 @@ ALTER TABLE `offer`
 -- AUTO_INCREMENT for table `projectidea`
 --
 ALTER TABLE `projectidea`
-  MODIFY `projectideaid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `projectideaid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `section`
