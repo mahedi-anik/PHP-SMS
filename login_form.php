@@ -23,21 +23,25 @@ if(isset($_POST['submit'])){
       if($row['role'] == 'super_admin'){
 
          $_SESSION['user'] = $row['name'];
+         $_SESSION['role'] = $row['role'];
          header('location:admin_page.php');
 
       }elseif($row['role'] == 'department_admin'){
 
          $_SESSION['user'] = $row['name'];
+         $_SESSION['role'] = $row['role'];
          header('location:admin_page.php');
 
       }elseif($row['role'] == 'teacher'){
 
          $_SESSION['user'] = $row['name'];
+         $_SESSION['role'] = $row['role'];
          header('location:user_page.php');
 
       }elseif($row['role'] == 'student'){
 
          $_SESSION['user'] = $row['name'];
+         $_SESSION['role'] = $row['role'];
          header('location:user_page.php');
 
       }
