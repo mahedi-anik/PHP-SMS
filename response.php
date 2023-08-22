@@ -41,4 +41,18 @@ if (!empty($_POST["sectionid"])) {
     }
 }
 ?>
+<?php
+@include 'config.php';
+if (!empty($_POST["ssessionid"])) {
+    $ssessionid = $_POST['ssessionid'];
+    $query = "SELECT course,offer.courseid from offer left join course on offer.courseid=course.courseid left join session on offer.sessionid=session.sessionid where offer.sessionid=$ssessionid";
+    $result = $conn->query($query);
+    if ($result->num_rows > 0) {
+        echo '<option value="">Select Course</option>';
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo '<option value="' . $row['courseid'] . '">' . $row['course'] . '</option>';
+        }
+    }
+}
+?>
 

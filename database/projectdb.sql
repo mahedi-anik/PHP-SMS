@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 19, 2023 at 11:38 AM
+-- Generation Time: Aug 22, 2023 at 07:16 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -114,15 +114,42 @@ INSERT INTO `enrollments` (`enrollmentid`, `sectionid`, `studentid`, `sessionid`
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `exammarks`
+--
+
+CREATE TABLE `exammarks` (
+  `exammarksid` int(11) NOT NULL,
+  `sessionid` int(11) NOT NULL,
+  `courseid` int(11) NOT NULL,
+  `studentid` int(11) NOT NULL,
+  `quiz` int(11) NOT NULL,
+  `exam` int(11) NOT NULL,
+  `project` int(11) NOT NULL,
+  `total` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `grades`
 --
 
 CREATE TABLE `grades` (
   `gradeid` int(11) NOT NULL,
-  `sectionid` int(11) NOT NULL,
-  `studentid` int(11) NOT NULL,
-  `marks` int(11) NOT NULL
+  `sessionid` int(11) NOT NULL,
+  `courseid` int(11) NOT NULL,
+  `quiz` int(11) NOT NULL,
+  `exam` int(11) NOT NULL,
+  `project` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `grades`
+--
+
+INSERT INTO `grades` (`gradeid`, `sessionid`, `courseid`, `quiz`, `exam`, `project`) VALUES
+(1, 10, 4, 20, 50, 30),
+(2, 15, 1, 20, 60, 20);
 
 -- --------------------------------------------------------
 
@@ -142,8 +169,8 @@ CREATE TABLE `offer` (
 --
 
 INSERT INTO `offer` (`offerid`, `sessionid`, `courseid`, `teacherid`) VALUES
-(1, '10', 1, 6),
-(2, '13', 2, 6);
+(1, '10', 4, 6),
+(2, '13', 1, 6);
 
 -- --------------------------------------------------------
 
@@ -292,6 +319,12 @@ ALTER TABLE `enrollments`
   ADD PRIMARY KEY (`enrollmentid`);
 
 --
+-- Indexes for table `exammarks`
+--
+ALTER TABLE `exammarks`
+  ADD PRIMARY KEY (`exammarksid`);
+
+--
 -- Indexes for table `grades`
 --
 ALTER TABLE `grades`
@@ -356,10 +389,16 @@ ALTER TABLE `enrollments`
   MODIFY `enrollmentid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT for table `exammarks`
+--
+ALTER TABLE `exammarks`
+  MODIFY `exammarksid` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `grades`
 --
 ALTER TABLE `grades`
-  MODIFY `gradeid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `gradeid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `offer`

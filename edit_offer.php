@@ -64,7 +64,7 @@ if (isset($_POST["submit"])) {
 		<select class="form-control" name="sessionid" required>
        <option value="">Select Session</option>
     <?php 
-    $query ="SELECT session,sessionid FROM session order by session asc";
+    $query ="SELECT CONCAT(session,'-',course) as session,sessionid FROM session left join course on session.courseid=course.courseid order by session asc";
     $result = $conn->query($query);
     if($result->num_rows> 0){
         while($optionData=$result->fetch_assoc()){

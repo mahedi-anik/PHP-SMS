@@ -13,19 +13,21 @@
 <?php
 	include('config.php');
  if(isset($_POST['submit'])){
-	$studentid=$_POST['studentid'];
-	$sectionid=$_POST['sectionid'];
-	$marks=$_POST['marks'];
+	$sessionid=$_POST['sessionid'];
+	$courseid=$_POST['courseid'];
+	$exam=$_POST['exam'];
+	$quiz=$_POST['quiz'];
+	$project=$_POST['project'];
 
-	$select = "SELECT * from grades LEFT JOIN users on grades.studentid=users.id LEFT JOIN section on grades.sectionid=section.sectionid  WHERE grades.studentid = '$studentid' and grades.sectionid= '$sectionid' and grades.marks= '$marks'";
+	$select = "SELECT * from grades LEFT JOIN session on grades.sessionid=session.sessionid LEFT JOIN course on grades.courseid=course.courseid  WHERE grades.sessionid = '$sessionid' and grades.courseid= '$courseid' and grades.exam= '$exam' and grades.quiz= '$quiz' and grades.project= '$project'";
 
    $result = mysqli_query($conn, $select);
 
    if(mysqli_num_rows($result) > 0){
 
-      $error[] = 'Exam Grades already exist!';
+      $error[] = 'Exam Marks Setup already exist!';
  }else{
-	mysqli_query($conn,"insert into grades (sectionid,studentid,marks) values ('$sectionid','$studentid','$marks')");
+	mysqli_query($conn,"insert into grades (sessionid,courseid,exam,quiz,project) values ('$sessionid','$courseid','$exam','$quiz','$project')");
 	header('location:grades.php');
  }
 };
@@ -61,7 +63,7 @@
 					<div class="col-lg-12 col-md-12">
 						<div class="card" style="min-height:485px">
 							<div class="card-header card-header-text">
-								<h2 class="card-title" style="text-align: center;">Add New Exam Grade</h2>
+								<h2 class="card-title" style="text-align: center;">Add New Exam Marks</h2>
 								<hr>
 							</div>
 							<div class="card-content">
@@ -76,21 +78,21 @@
       };
       ?>
       <div class="form-group row">
-	    <label  class="col-sm-3 col-form-label" style="text-align:right;">Section :</label>
+	    <label  class="col-sm-3 col-form-label" style="text-align:right;">Session Name :</label>
 	    <div class="col-sm-7">
-<select class="form-control" name="sectionid" id="section" required>
-       <option value="">Select Section</option>
+		<select class="form-control" name="sessionid" id="session" required>
+       <option value="">Select Session</option>
     <?php 
-    $query ="SELECT * FROM section order by sectionname asc ";
+    $query ="SELECT CONCAT(session,'-',course) as session,sessionid FROM session left join course on session.courseid=course.courseid order by session asc";
     $result = $conn->query($query);
     if($result->num_rows> 0){
         while($optionData=$result->fetch_assoc()){
-        $option =$optionData['sectionname'];
-        $data =$optionData['sectionid'];
+        $option =$optionData['session'];
+        $data =$optionData['sessionid'];
     ?>
     <?php
     //selected option
-    if(!empty($sectionname) && $sectionname== $option){
+    if(!empty($session) && $session == $option){
     // selected option
     ?>
     <option value="<?php echo $data; ?>" selected><?php echo $option; ?> </option>
@@ -102,23 +104,36 @@ continue;
     }}
     ?>
     </select>
-	    </div>
+	  </div>
+	</div>
+		  	  <div>&nbsp;</div>
+		  	  <div class="form-group row">
+	    <label  class="col-sm-3 col-form-label" style="text-align:right;">Course Name :</label>
+	    <div class="col-sm-7">
+		<select class="form-control" name="courseid" id="course" required>
+       <option value="">Select Course</option>
+    </select>
 	  </div>
 	  <div>&nbsp;</div>
 	<div class="form-group row">
-	    <label  class="col-sm-3 col-form-label" style="text-align:right;">Student Name :</label>
+	    <label  class="col-sm-3 col-form-label" style="text-align:right;">Exam Marks :</label>
 	    <div class="col-sm-7">
-		<select class="form-control" name="studentid" id="student" required>
-<option value="">Select Student</option>
-    </select>
+		<input class="form-control" name="exam" placeholder="exam marks" required>
 	  </div>
 	</div>
 	  
 	  	  <div>&nbsp;</div>
 	  	  <div class="form-group row">
-	  	  	<label  class="col-sm-3 col-form-label" style="text-align:right;">Marks :</label>
+	  	  	<label  class="col-sm-3 col-form-label" style="text-align:right;">Quiz marks :</label>
 	    <div class="col-sm-7">
-	    	<input class="form-control" name="marks" placeholder="marks" required>
+	    	<input class="form-control" name="quiz" placeholder="quiz marks" required>
+	    </div>
+	  	  </div>
+	  	   <div>&nbsp;</div>
+	  	  <div class="form-group row">
+	  	  	<label  class="col-sm-3 col-form-label" style="text-align:right;">Project marks :</label>
+	    <div class="col-sm-7">
+	    	<input class="form-control" name="project" placeholder="project marks" required>
 	    </div>
 	  	  </div>
 	  <div>&nbsp;</div>
@@ -136,17 +151,17 @@ continue;
 					</div>
 					    <script>
         $(document).ready(function() {
-            $("#section").on('change', function() {
-                var sectionid = $(this).val();
+            $("#session").on('change', function() {
+                var ssessionid = $(this).val();
                 $.ajax({
                     method: "POST",
                     url: "response.php",
                     data: {
-                        id: sectionid
+                        ssessionid: ssessionid
                     },
                     datatype: "html",
                     success: function(data) {
-                        $("#student").html(data);
+                        $("#course").html(data);
 
                     }
 

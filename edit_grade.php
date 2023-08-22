@@ -13,16 +13,17 @@
 <?php
 include "config.php";
 $id = $_GET["id"];
-$userid=$_GET["userid"];
-$sectionid=$_GET["sectionid"];
-$marks=$_GET["marks"];
+$sessionid=$_GET["sessionid"];
+$courseid=$_GET["courseid"];
 
-if (isset($_POST["submit"])) {
-	$studentid=$_POST['studentid'];
-	$sectionid=$_POST['sectionid'];
-	$marks=$_POST["marks"];
+ if(isset($_POST['submit'])){
+	$sessionid=$_POST['sessionid'];
+	$courseid=$_POST['courseid'];
+	$exam=$_POST['exam'];
+	$quiz=$_POST['quiz'];
+	$project=$_POST['project'];
 
-  $sql = "UPDATE `grades` SET `studentid`='$studentid',`sectionid`='$sectionid',`marks`='$marks' WHERE gradeid = $id";
+  $sql = "UPDATE `grades` SET `sessionid`='$sessionid',`courseid`='$courseid',`exam`='$exam',`quiz`='$quiz',`project`='$project' WHERE gradeid = $id";
 
   $result = mysqli_query($conn, $sql);
 
@@ -64,79 +65,93 @@ if (isset($_POST["submit"])) {
 					<div class="col-lg-12 col-md-12">
 						<div class="card" style="min-height:485px">
 							<div class="card-header card-header-text">
-								<h2 class="card-title" style="text-align: center;">Update Exam Grade</h2>
+								<h2 class="card-title" style="text-align: center;">Update Exam Marks Info</h2>
 								<hr>
 							</div>
 							<div class="card-content">
 								 <?php
-    $sql = "SELECT * from grades LEFT JOIN users on grades.studentid=users.id LEFT JOIN section on grades.sectionid=section.sectionid WHERE grades.gradeid = $id LIMIT 1";
+    $sql = "SELECT * from grades LEFT JOIN session on grades.sessionid=session.sessionid LEFT JOIN course on grades.courseid=course.courseid WHERE grades.gradeid = $id LIMIT 1";
     $result = mysqli_query($conn, $sql);
     $row = mysqli_fetch_assoc($result);
     ?>
     <div class="form-group row">
-	    <label  class="col-sm-3 col-form-label" style="text-align:right;">Section :</label>
+	    <label  class="col-sm-3 col-form-label" style="text-align:right;">Session Name :</label>
 	    <div class="col-sm-7">
-	      <select class="form-control" name="sectionid" required>
-       <option value="">Select Section</option>
+		<select class="form-control" name="sessionid" id="session" required>
+       <option value="">Select Session</option>
     <?php 
-    $query ="SELECT * FROM section order by sectionname asc ";
+    $query ="SELECT CONCAT(session,'-',course) as session,sessionid FROM session left join course on session.courseid=course.courseid order by session asc";
     $result = $conn->query($query);
     if($result->num_rows> 0){
         while($optionData=$result->fetch_assoc()){
-        $option =$optionData['sectionname'];
-        $data =$optionData['sectionid'];
+        $option =$optionData['session'];
+        $data =$optionData['sessionid'];
     ?>
     <?php
     //selected option
-    if(!empty($sectionname) && $sectionname== $option){
+    if(!empty($session) && $session == $option){
     // selected option
     ?>
     <option value="<?php echo $data; ?>" selected><?php echo $option; ?> </option>
     <?php 
 continue;
    }?>
-    <option value="<?php echo $data; ?>"<?php if($data == $sectionid) { ?> selected="selected"<?php } ?> ><?php echo $option; ?> </option>
+    <option value="<?php echo $data; ?>" <?php if($data == $sessionid) { ?> selected="selected"<?php } ?>><?php echo $option; ?> </option>
    <?php
     }}
     ?>
     </select>
-	    </div>
+	  </div>
+	</div>
+		  	  <div>&nbsp;</div>
+		  	  <div class="form-group row">
+	    <label  class="col-sm-3 col-form-label" style="text-align:right;">Course Name :</label>
+	    <div class="col-sm-7">
+		<select class="form-control" name="courseid" required>
+       <option value="">Select Course</option>
+    <?php 
+    $query ="SELECT course,courseid FROM course order by course asc";
+    $result = $conn->query($query);
+    if($result->num_rows> 0){
+        while($optionData=$result->fetch_assoc()){
+        $option =$optionData['course'];
+        $data =$optionData['courseid'];
+    ?>
+    <?php
+    //selected option
+    if(!empty($course) && $course == $option){
+    // selected option
+    ?>
+    <option value="<?php echo $data; ?>" selected><?php echo $option; ?> </option>
+    <?php 
+continue;
+   }?>
+    <option value="<?php echo $data; ?>"<?php if($data == $courseid) { ?> selected="selected"<?php } ?> ><?php echo $option; ?> </option>
+   <?php
+    }}
+    ?>
+    </select>
 	  </div>
 	  <div>&nbsp;</div>
-								<div class="form-group row">
-	    <label  class="col-sm-3 col-form-label" style="text-align:right;">Student Name :</label>
+	<div class="form-group row">
+	    <label  class="col-sm-3 col-form-label" style="text-align:right;">Exam Marks :</label>
 	    <div class="col-sm-7">
-	      <select class="form-control" name="studentid" required>
-       <option value="">Select User</option>
-    <?php 
-    $query ="SELECT * FROM users where role='student' order by name asc ";
-    $result = $conn->query($query);
-    if($result->num_rows> 0){
-        while($optionData=$result->fetch_assoc()){
-        $option =$optionData['name'];
-        $data =$optionData['id'];
-    ?>
-    <?php
-    //selected option
-    if(!empty($name) && $name== $option){
-    // selected option
-    ?>
-    <option value="<?php echo $data; ?>" selected><?php echo $option; ?> </option>
-    <?php 
-continue;
-   }?>
-    <option value="<?php echo $data; ?>"<?php if($data == $userid) { ?> selected="selected"<?php } ?> ><?php echo $option; ?> </option>
-   <?php
-    }}
-    ?>
-    </select>
-	    </div>
+		<input class="form-control" name="exam" value="<?php echo $row['exam'] ?>" required>
+	  </div>
 	</div>
-	<div>&nbsp;</div>
+	  
+	  	  <div>&nbsp;</div>
 	  	  <div class="form-group row">
-	  	  	<label  class="col-sm-3 col-form-label" style="text-align:right;">Marks :</label>
+	  	  	<label  class="col-sm-3 col-form-label" style="text-align:right;">Quiz marks :</label>
 	    <div class="col-sm-7">
-	    	<input class="form-control" name="marks" placeholder="marks" value="<?php echo $row['marks'] ?>" required>
+	    	<input class="form-control" name="quiz" value="<?php echo $row['quiz'] ?>" required>
+	    </div>
+	  	  </div>
+	  	   <div>&nbsp;</div>
+	  	  <div class="form-group row">
+	  	  	<label  class="col-sm-3 col-form-label" style="text-align:right;">Project marks :</label>
+	    <div class="col-sm-7">
+	    	<input class="form-control" name="project" value="<?php echo $row['project'] ?>" required>
 	    </div>
 	  	  </div>
 	  <div>&nbsp;</div>

@@ -49,18 +49,24 @@
                     <a href="student.php"><i class="material-icons">admin_panel_settings</i><span>Students</span></a>
                 </li>
                 <?php }?>
+                <?php
+            if($_SESSION['role'] != 'student' &&  $_SESSION['role'] !='teacher' ){?>
                 <li class="">
                     <a href="session.php"><i class="material-icons">date_range</i><span>Session</span></a>
                 </li>
                 <li class="">
                     <a href="section.php"><i class="material-icons">event_seat</i><span>Section</span></a>
                 </li>
+                <?php }?>
                 <li class="">
                     <a href="course.php"><i class="material-icons">assessment</i><span>Course</span></a>
                 </li>
+                <?php
+            if($_SESSION['role'] != 'student' &&  $_SESSION['role'] !='teacher' ){?>
                 <li class="">
                     <a href="department.php"><i class="material-icons">badge</i><span>Department</span></a>
                 </li>
+                <?php }?>
                 <li class="">
                     <a href="offer.php"><i class="material-icons">badge</i><span>Course Offer</span></a>
                 </li>
@@ -70,9 +76,15 @@
                 <li class="">
                     <a href="enrollment.php"><i class="material-icons">keyboard_command_key</i><span>Enrollments</span></a>
                 </li>
+                <?php
+            if($_SESSION['role'] != 'student' ){?>
                 <li class="">
-                    <a href="grades.php"><i class="material-icons">grade</i><span>Grades</span></a>
+                    <a href="grades.php"><i class="material-icons">grade</i><span>Marks Setup</span></a>
                 </li>
+                <li class="">
+                    <a href="marks.php"><i class="material-icons">grade</i><span>Marks Entry</span></a>
+                </li>
+                <?php }?>
                  <?php
             if($_SESSION['role'] != 'student' &&  $_SESSION['role'] !='teacher' ){?>
                <li class="">
