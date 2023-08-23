@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 22, 2023 at 07:16 PM
+-- Generation Time: Aug 23, 2023 at 05:30 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -127,6 +127,14 @@ CREATE TABLE `exammarks` (
   `project` int(11) NOT NULL,
   `total` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `exammarks`
+--
+
+INSERT INTO `exammarks` (`exammarksid`, `sessionid`, `courseid`, `studentid`, `quiz`, `exam`, `project`, `total`) VALUES
+(1, 10, 4, 7, 17, 46, 26, 89),
+(2, 10, 4, 8, 19, 48, 27, 94);
 
 -- --------------------------------------------------------
 
@@ -392,7 +400,7 @@ ALTER TABLE `enrollments`
 -- AUTO_INCREMENT for table `exammarks`
 --
 ALTER TABLE `exammarks`
-  MODIFY `exammarksid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `exammarksid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `grades`
