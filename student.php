@@ -68,12 +68,12 @@
 										<?php
 											@include 'config.php';
 
-											$query=mysqli_query($conn,"SELECT * from users left join department on users.departmentid=department.departmentid left join session on users.sessionid=session.sessionid left join section on users.sectionid=section.sectionid where users.role='student' order by name asc ");
+											$query=mysqli_query($conn,"SELECT name,department.departmentname,session.session,section.sectionname,users.email,mobile,status,COALESCE(users.departmentid,0) as departmentid,COALESCE(users.sessionid,0) as sessionid,COALESCE(users.sectionid,0) as sectionid,users.id,users.role from users left join department on users.departmentid=department.departmentid left join session on users.sessionid=session.sessionid left join section on users.sectionid=section.sectionid where users.role='student'  order by name asc ");
 											while($row=mysqli_fetch_array($query)){
 											?>
 											<tr>
 												<td><?php echo ucwords($row['id']); ?></td>
-												<td><?php echo ucwords($row['name']); ?></td>										
+												<td><?php echo ucwords($row['name']); ?></td>									
 												<td><?php echo ucwords($row['departmentname']); ?></td>
 												<td><?php echo ucwords($row['session']); ?></td>
 												<td><?php echo ucwords($row['sectionname']); ?></td>
@@ -82,7 +82,7 @@
 												<td><?php echo ucwords($row['status']); ?></td>
 												<td>
 													 <a href="edit_student.php?id=<?php echo $row['id'] ?>&roleid=<?php echo $row['role'] ?>&status=<?php echo $row['status'] ?>&departmentid=<?php echo $row['departmentid'] ?>&sessionid=<?php echo $row['sessionid'] ?>&sectionid=<?php echo $row['sectionid'] ?>" ><i class="fa-solid fa-pen-to-square fs-5 me-3"></i></a>
-	              <a href="delete_admins.php?id=<?php echo $row['id'] ?>" class="link-danger"><i class="fa-solid fa-trash fs-5"></i></a>
+	              <a href="delete_students.php?id=<?php echo $row['id'] ?>" class="link-danger"><i class="fa-solid fa-trash fs-5"></i></a>
 												</td>
 											</tr>
 											<?php

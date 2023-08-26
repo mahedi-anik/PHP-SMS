@@ -181,7 +181,7 @@ continue;
 		<select class="form-control" name="sectionid"  required>
        <option value="">Select Session</option>
     <?php 
-    $query ="SELECT concat(sectionname,'-',departmentname) as sectionname,sectionid from section left join department on section.departmentid=department.departmentid  where section.sessionid=$sessionid";
+    $query ="SELECT concat(sectionname,'-',departmentname) as sectionname,sectionid from section left join department on section.departmentid=department.departmentid  order by sectionname asc";
     $result = $conn->query($query);
     if($result->num_rows> 0){
         while($optionData=$result->fetch_assoc()){

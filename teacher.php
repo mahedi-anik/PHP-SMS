@@ -82,7 +82,7 @@
 												<td><?php echo ucwords($row['status']); ?></td>
 												<td>
 													 <a href="edit_teacher.php?id=<?php echo $row['id'] ?>&roleid=<?php echo $row['role'] ?>&status=<?php echo $row['status'] ?>&departmentid=<?php echo $row['departmentid'] ?>&courseid=<?php echo $row['courseid'] ?>" ><i class="fa-solid fa-pen-to-square fs-5 me-3"></i></a>
-	              <a href="delete_admins.php?id=<?php echo $row['id'] ?>" class="link-danger"><i class="fa-solid fa-trash fs-5"></i></a>
+	              <a href="delete_teacher.php?id=<?php echo $row['id'] ?>" class="link-danger"><i class="fa-solid fa-trash fs-5"></i></a>
 												</td>
 											</tr>
 											<?php
